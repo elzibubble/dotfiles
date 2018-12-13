@@ -1,0 +1,16 @@
+= Alexis' dotfiles
+
+To setup a new computer:
+
+[source,bash]
+----
+git clone https://github.com/svetlyak40wt/dotfiler .dotfiles
+cd .dotfiles
+bin/dot add lxsli/dotfiles
+cd dotfiles
+git submodule update   # needed?
+cd ..
+bin/dot update
+----
+
+Now launch Vim and run `:PluginInstall`.

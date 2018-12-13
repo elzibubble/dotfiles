@@ -70,7 +70,7 @@ set guifont=
 "set mouse=a
 set lazyredraw
 set wildmenu
-exec "set undodir=". g:dropbox ."/vim-undo-dir"
+" exec "set undodir=". g:dropbox ."/vim-undo-dir"
 set undofile
 colorscheme jellybeans
 set termguicolors
@@ -104,14 +104,14 @@ map '@ :e!%
 map '# :e#
 map '~ :e!#
 map '. :cd %:h
-exec "map 'v :vert botright new ". g:dropbox ."/_vimrc"
+exec "map 'v :vert botright new ~/.vimrc"
 map 'V :exec ":vert botright new $VIMB/_lxs/after/ftplugin/". &ft .".vim"
 " if has("win32")
 "     map 'V :e ~/_vimrc
 " else
 "     map 'V :e ~/.vimrc
 " endif
-exec "map 'z :e ". g:dropbox ."/_zshrc"
+exec "map 'z :e ~/.zshrc"
 map Z @@
 map Q @q
 map # .n

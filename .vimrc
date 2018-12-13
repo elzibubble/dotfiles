@@ -1,10 +1,10 @@
-exec 'so '. g:dropbox .'/vimbundles/pathogen.vim'
-exec "call pathogen#infect('". g:dropbox ."/vimbundles/{}')"
+" exec 'so '. g:dropbox .'/vimbundles/pathogen.vim'
+" exec "call pathogen#infect('". g:dropbox ."/vimbundles/{}')"
 
 " Vundle
 filetype off
-exec 'set rtp+='. g:dropbox .'/vundle/Vundle.vim'
-call vundle#begin(g:dropbox .'/vundle')
+exec 'set rtp+=~/.vundle'
+call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'FelikZ/ctrlp-py-matcher'

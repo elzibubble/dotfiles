@@ -1,0 +1,11 @@
+#!/usr/bin/python
+
+import sys
+import pika
+
+connection = pika.BlockingConnection(pika.ConnectionParameters(sys.argv[1]))
+channel = connection.channel()
+
+channel.queue_delete(queue=sys.argv[2])
+
+connection.close()

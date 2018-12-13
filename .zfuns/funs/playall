@@ -1,0 +1,7 @@
+# vim: set ft=zsh ts=2 sw=2:
+
+rhythmbox-client --clear-queue
+for X in "$@"; do
+  rhythmbox-client --enqueue "$X"
+done
+rhythmbox-client --next --play

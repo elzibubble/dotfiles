@@ -1,0 +1,12 @@
+#!/bin/bash
+
+BR=$(git branch -a)
+
+for X in develop trunk master; do
+  grep -q origin/$X <<< $BR || continue
+  echo $X
+  exit
+done
+
+echo "Failed to identify main branch"
+exit 1

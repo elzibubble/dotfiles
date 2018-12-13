@@ -1,0 +1,60 @@
+# vim: set ft=zsh ts=2 sw=2:
+
+ECHO=echo
+
+tadaa() {
+  find $1 -mindepth 1 -maxdepth 1 -iname \*$2\* | sed 's/.*\///'
+}
+
+if [[ $# == 0 ]]; then
+  pause
+  return
+fi
+
+if [[ $1 == '-' ]]; then
+  if [[ $# == 1 ]]; then
+    ls $MUSIC
+    return
+  fi
+  if [[ $2 == '-' ]]; then
+    ls $MUSIC/*
+    return
+  fi
+
+  ALBUM=`find $MUSIC/* -mindepth 1 -maxdepth 1 -iname \*$2\* | sed 's/$MUSIC\///'`
+  if [[ $ALBUM == '' || `echo $ALBUM | wc -l` != "1" ]]; then
+    echo "Albums found: " $ALBUM
+    return
+  fi
+
+  echo "Playing: $ALBUM"
+  echo "Broken"
+  return
+  $ECHO playall "$MUSIC/$ALBUM"/*
+  return
+fi
+
+ARTIST=`tadaa $MUSIC $1`
+if [[ $ARTIST == '' || `echo $ARTIST | wc -l` != "1" ]]; then
+  echo "Artists found: " $ARTIST
+  return
+fi
+
+if [[ $# == 1 ]]; then
+  echo "Playing: $ARTIST"
+  $ECHO playall "$MUSIC/$ARTIST"/*
+  return
+fi
+
+if [[ $2 == '-' ]]; then
+  ls $MUSIC/$ARTIST
+  return
+fi
+
+ALBUM=`tadaa $MUSIC/$ARTIST $2`
+if [[ $ALBUM == '' || `echo $ALBUM | wc -l` != "1" ]]; then
+  echo "Albums found: " $ALBUM
+fi
+
+echo "Playing: $ARTIST/$ALBUM"
+$ECHO playall "$MUSIC/$ARTIST/$ALBUM"/*

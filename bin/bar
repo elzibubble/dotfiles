@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo -n "$(tput setab ${1:-0})"
+yes ' ' | head -$COLUMNS | tr -d "\n"
+echo -n "$(tput sgr0)"

@@ -1,0 +1,101 @@
+[user]
+  email = alee@greshamtech.com
+  name = Alexis Lee
+[gitreview]
+  username = alee
+[alias]
+  # Try and find a symbolic ref (branch or tag name) for the current commit
+  ref = "!git symbolic-ref --short ${1:-HEAD} 2> /dev/null || git rev-parse ${1:-HEAD}"
+
+  co = checkout
+  # as-remote = "!if [[ \"${1%%/*}\" == \"remotes\" ]]; then echo \"$1\"; else echo \"remotes/origin/$1\"; fi"
+  cot = checkout -t
+  br = branch
+  ci = commit
+  st = status
+  unstage = reset HEAD --
+  msg = log -1 --stat
+  ol = log -6 --pretty=oneline
+  ls = "!git --no-pager diff --name-only \"$(git range "$@")\" #"
+  lss = "!git status -s -- "$@" | sed 's/^...//; s/.* -> //' #"
+  lsp = "!git ls | percol"
+  lssp = "!git lss | percol"
+  asp = "!git add $(git lss | percol)"
+  brp = "!git br | percol"
+  d = "!git multidiff \"$(git range --simple "$@")\" #"
+  ds = multidiff --cached
+  dw = multidiff
+  mt = mergetool
+  cir = commit -a --amend --no-edit
+  cia = commit -a --amend
+  pr = pull --rebase
+  # `git pr` on the `git main` branch
+  pm = "!_CBR=$(git ref); if [ \"$_CBR\" != \"$(git main)\" ]; then git com; git pr; git co $_CBR; else git pr; fi"
+  pmr = "!git pm && git rebase \"$(git main)\""
+  rc = rebase --continue
+  arc = "!git add .; git rc"
+  pick = cherry-pick
+  hardpick = cherry-pick --strategy recursive -X theirs
+  pc = cherry-pick --continue
+  apc = "!git add .; git pc"
+  unamend = reset --soft HEAD@{1}
+  hard = reset --hard
+  soft = reset --soft
+
+  isclean = "!if [ $(git status -s | wc -l) -eq '0' ]; then return 0; else return 1; fi"
+  ifclean = "!if [ $(git status -s | wc -l) -eq '0' ]; then git "$@"; else echo UNCLEAN; fi #"
+  unsafe-drop = "!git ol -1; git hard HEAD^1"
+  drop = "!git ifclean unsafe-drop"
+  # Drop and choose second parent; NOT drop twice
+  unsafe-drop2 = "!git ol -1; git hard HEAD^2"
+  drop2 = "!git ifclean unsafe-drop2"
+  drops = reset --hard HEAD
+  hardmain = "!git ifclean reset --hard origin/$(git main)"
+
+  com = "!git co $(git main)"
+  cop = "!git co $(git brp)"
+  # These don't cope with "both added" or "both removed" :|
+  changed = "!git status -s | egrep \"^.M|^M.\" | awk \"{print \\$2}"
+  untracked = "!git status -s | egrep \"^.U|^U.|\\?\\?\" | awk \"{print \\$2}\""
+  adduntracked = "!git add $(git untracked)"
+
+  # Interactive rebase N commits, default 1
+  ir = "!bash -c \"git rebase -i ${1:+HEAD~$1}\""
+  # Interactive rebase until the merge point with the `git main` branch
+  irm = "!git rebase -i $(git merge-base HEAD $(git main))"
+  # Interactive rebase onto `git main`, this will rebase your patch! Use irm if you don't want that
+  mir = "!git rebase -i origin/$(git main)"
+
+  setupto = "!git branch --set-upstream-to=${1:-origin/$(git main)}"
+  ghpush = "!lpass show --password github.com | git push"
+  ad = add -A :/
+  # to save `git git ol`...
+  git = "!git $@"
+  shove = "!git push --set-upstream origin `git ref`"
+  rmrbr = "!git push ${1:-origin} --delete $(git ref) #"
+  delbr = "!_CBR=$(git ref); git rmrbr; git com; git br -D \"$_CBR\""
+
+  mkpr = "!hub pull-request"
+  mkpreng = "!git mkpr -r JamesLaverack,thewonderbull,mt3593"
+  mkprall = "!git mkpr -r JamesLaverack,thewonderbull,mt3593,leesaxbygresham,wkerswell-gresham,pauladagostino,sflower0"
+  getpr = "!hub pr checkout"
+[diff]
+  tool = vimdiff
+[merge]
+  tool = vimdiff
+[difftool]
+  prompt = false
+[multidiff]
+  tool = vd -f
+[core]
+  excludesfile = ~/Dropbox/.gitignore
+[push]
+  default = simple
+[credential]
+  helper = "cache --timeout=3600"
+[rerere]
+  enabled = true
+[color]
+  ui = auto
+
+# vim: sw=2 ts=2

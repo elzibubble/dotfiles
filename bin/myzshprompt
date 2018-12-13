@@ -1,0 +1,15 @@
+#!/bin/zsh
+
+autoload -Uz compinit
+compinit
+source $DROPBOX/.zfuns/git
+source $DROPBOX/.zfuns/z_colours
+
+PROMPT_1="$FG_[yellow]%M$RESET_"
+
+PROMPT_2="$(__git_ps1 "%s")"
+if [ -n "$PROMPT_2" ]; then
+    PROMPT_2=" $FG_[green]$(__git_ps1 "%s")$RESET_"
+fi
+
+echo "${PROMPT_1}${PROMPT_2} %# %B"

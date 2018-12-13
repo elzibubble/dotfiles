@@ -1,0 +1,10 @@
+#!/bin/bash
+
+PAT="$1"
+shift
+
+if [[ "$1" -eq "" ]]; then
+	grep -E --color "$PAT|"
+else
+	"$@" 2>&1 | grep -E --color "$PAT|"
+fi

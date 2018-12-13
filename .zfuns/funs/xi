@@ -1,0 +1,6 @@
+# vim: set ft=zsh ts=2 sw=2:
+
+S=$HOME/xi/bin/activate
+if [[ -r $S ]]; then
+  source $S
+fi

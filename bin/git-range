@@ -1,0 +1,25 @@
+#!/bin/bash
+
+SIMPLE=""
+if [[ "$1" == "--simple" ]]; then
+    SIMPLE=1
+    shift
+fi
+
+from="$1"
+if [ -z "$from" ]; then
+    from="HEAD~1"
+elif [[ "$from" =~ ^[0-9]+$ ]]; then
+    from="HEAD~$from"
+fi
+
+to="${2:-}"
+if [[ "$to" =~ ^[0-9]+$ ]]; then
+    to="HEAD~$to"
+fi
+
+if [[ -n "$SIMPLE" ]] && [[ -z "$to" ]]; then
+    echo "$from"
+else
+    echo "${from}..${to}"
+fi

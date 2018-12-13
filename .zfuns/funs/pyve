@@ -1,0 +1,7 @@
+# vim: set ft=zsh ts=2 sw=2:
+
+S=$HOME/pyve/bin/activate
+if [[ -r $S ]]; then
+  source $S
+  source $DROPBOX/.zfuns/z_argcomplete
+fi

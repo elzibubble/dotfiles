@@ -1,0 +1,54 @@
+typeset -A FG
+typeset -A FG_
+typeset -A BG
+typeset -A BG_
+
+if [[ -n "$TERM" ]]; then
+    FG[black]="$(tput setaf 0)"
+    FG[red]="$(tput setaf 1)"
+    FG[green]="$(tput setaf 2)"
+    FG[yellow]="$(tput setaf 3)"
+    FG[blue]="$(tput setaf 4)"
+    FG[purple]="$(tput setaf 5)"
+    FG[cyan]="$(tput setaf 6)"
+    FG[white]="$(tput setaf 7)"
+
+    BG[black]="$(tput setab 0)"
+    BG[red]="$(tput setab 1)"
+    BG[green]="$(tput setab 2)"
+    BG[yellow]="$(tput setab 3)"
+    BG[blue]="$(tput setab 4)"
+    BG[purple]="$(tput setab 5)"
+    BG[cyan]="$(tput setab 6)"
+    BG[white]="$(tput setab 7)"
+
+    BOLD="$(tput bold)"
+    DIM="$(tput dim)"
+    UL="$(tput smul)"
+    REV="$(tput rev)"
+    RESET="$(tput sgr0)"
+
+    FG_[black]="%{${FG[black]}%}"
+    FG_[red]="%{${FG[red]}%}"
+    FG_[green]="%{${FG[green]}%}"
+    FG_[yellow]="%{${FG[yellow]}%}"
+    FG_[blue]="%{${FG[blue]}%}"
+    FG_[purple]="%{${FG[purple]}%}"
+    FG_[cyan]="%{${FG[cyan]}%}"
+    FG_[white]="%{${FG[white]}%}"
+
+    BG_[black]="%{${BG[black]}%}"
+    BG_[red]="%{${BG[red]}%}"
+    BG_[green]="%{${BG[green]}%}"
+    BG_[yellow]="%{${BG[yellow]}%}"
+    BG_[blue]="%{${BG[blue]}%}"
+    BG_[purple]="%{${BG[purple]}%}"
+    BG_[cyan]="%{${BG[cyan]}%}"
+    BG_[white]="%{${BG[white]}%}"
+
+    BOLD_="%{${BOLD}%}"
+    DIM_="%{${DIM}%}"
+    UL_="%{${UL}%}"
+    REV_="%{${REV}%}"
+    RESET_="%{${RESET}%}"
+fi

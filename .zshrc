@@ -21,7 +21,6 @@ export WORKSPACE=$HOME/w
 export DEPLOY=$HOME/deploy
 export CCM_SNAPSHOTS_URL=https://nexus.greshamtech.com/content/repositories/ccm-snapshots/
 export KUBE_NS=tempest
-source /usr/local/share/chruby/chruby.sh
 
 # Git
 export GIT_PS1_SHOWDIRTYSTATE=1

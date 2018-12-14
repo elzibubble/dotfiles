@@ -16,6 +16,7 @@ compinit
 
 # Gresham
 unsetopt beep
+export DOTBASE=$HOME
 export WORKSPACE=$HOME/w
 export DEPLOY=$HOME/deploy
 export CCM_SNAPSHOTS_URL=https://nexus.greshamtech.com/content/repositories/ccm-snapshots/
@@ -30,8 +31,8 @@ export GIT_PS1_SHOWUPSTREAM="auto"
 
 export EDITOR=vim
 export VISUAL=vim
-source $DROPBOX/.zfuns/z_colours
-source $DROPBOX/.zfuns/z_greek
+source $DOTBASE/.zfuns/z_colours
+source $DOTBASE/.zfuns/z_greek
 export COLUMNS
 export LINES
 
@@ -68,8 +69,7 @@ path[1,0]=(
 	~/w/node-v9.8.0-linux-x64/bin
 )
 
-export VIMB=$DROPBOX/vimbundles
-export HP=$DROPBOX/hp
+export VIMB=$DOTBASE/vimbundles
 export GOPATH=~/go
 
 # Completion
@@ -92,7 +92,7 @@ loadFnDir() {
     autoload $F
   done
 }
-loadFnDir $DROPBOX/.zfuns/funs
+loadFnDir $DOTBASE/.zfuns/funs
 
 # Pick values out of a prettytable
 grok() {
@@ -195,7 +195,6 @@ export LPASS_AGENT_TIMEOUT=0
 function lpass-login() { lpass login lastpass@lxsli.co.uk; }
 function lpp() { lpass show -c --password $1; }
 function lpp-github() { lpp github.com; }
-function lpp-xim() { lpp hp-xim; }
 
 #DROPBOX_STATUS=`dropbox status`
 #if [[ "$DROPBOX_STATUS" != 'Up to date' ]]; then

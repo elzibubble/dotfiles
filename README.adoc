@@ -23,3 +23,8 @@ chmod +x ~/localbin/nvim
 ----
 
 Now launch Vim and run `:PluginInstall`.
+
+Also consider installing:
+
+* https://github.com/lastpass/lastpass-cli/releases - extract, `make`, `mv build/lpass ~/localbin`
+* https://github.com/github/hub/releases - extract, `mv bin/hub ~/localbin`

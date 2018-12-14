@@ -1,5 +1,6 @@
-" exec 'so '. g:dropbox .'/vimbundles/pathogen.vim'
-" exec "call pathogen#infect('". g:dropbox ."/vimbundles/{}')"
+let g:dotbase="~"
+" exec 'so '. g:dotbase .'/vimbundles/pathogen.vim'
+" exec "call pathogen#infect('". g:dotbase ."/vimbundles/{}')"
 
 " Vundle
 filetype off
@@ -37,7 +38,7 @@ Plugin 'sjl/gundo.vim'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-classpath'
 Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-dispatch'
+" Plugin 'tpope/vim-dispatch'
 Plugin 'tpope/vim-fireplace'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-projectionist'
@@ -45,10 +46,10 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-sexp-mappings-for-regular-people'
 Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-unimpaired'
+" Plugin 'tpope/vim-unimpaired'
 Plugin 'typedclojure/vim-typedclojure'
 Plugin 'venantius/vim-cljfmt'
-Plugin 'xenomachina/public'
+Plugin 'xenomachina/public', {'rtp': 'vim/'}
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-session'
 Plugin 'lxsli/vim-unstack'
@@ -70,10 +71,10 @@ set guifont=
 "set mouse=a
 set lazyredraw
 set wildmenu
-" exec "set undodir=". g:dropbox ."/vim-undo-dir"
+exec "set undodir=". g:dotbase ."/.vim/undo"
 set undofile
 colorscheme jellybeans
-set termguicolors
+" set termguicolors
 
 " Gresham
 "set noet

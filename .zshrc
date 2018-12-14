@@ -61,6 +61,7 @@ stty -ixon
 unset KSH_ARRAYS
 
 path[1,0]=(
+  ~/.dotfiles/bin
   ~/localbin
   ~/bin
   ~/Dropbox/bin
@@ -74,8 +75,9 @@ export GOPATH=~/go
 # . ~/w/tmuxinator/completion/tmuxinator.zsh
 which jira > /dev/null 2>&1 && source <(jira --completion-script-zsh)
 
-# Kubectl
+# Kubectl-fns
 [[ -d ~/w/kubectl-fns ]] && . ~/w/kubectl-fns/zshrc
+export HELM_HOME=~/.helm
 
 # Git prompt + completion
 source $HOME/.zsh/_git_ps1

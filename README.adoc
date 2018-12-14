@@ -13,4 +13,13 @@ cd ..
 bin/dot update
 ----
 
+Download NVim:
+
+[source,bash]
+----
+mkdir ~/localbin
+curl https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage > ~/localbin/nvim
+chmod +x ~/localbin/nvim
+----
+
 Now launch Vim and run `:PluginInstall`.

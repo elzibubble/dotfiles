@@ -61,11 +61,10 @@ stty -ixon
 unset KSH_ARRAYS
 
 path[1,0]=(
+  ~/localbin
   ~/bin
   ~/Dropbox/bin
   ~/go/bin
-  ~/w/depot_tools
-	~/w/node-v9.8.0-linux-x64/bin
 )
 
 export VIMB=$DOTBASE/vimbundles
@@ -140,6 +139,7 @@ function vfind() { vim $(find "$@") }
 alias agc='ag --clojure'
 function hi_ip() { egrep "[0-9]+\.[0-9]+|" --color=always $@ }
 
+function vim() { nvim "$@" }
 function vc() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git ls "$@") ) }
 function vcp() { ( cd "$(git rev-parse --show-toplevel)"; vim "$(git ls "$@" | percol)" ) }
 function vs() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git lss "$@") ) }

@@ -8,7 +8,7 @@ git clone https://github.com/svetlyak40wt/dotfiler .dotfiles
 cd .dotfiles
 bin/dot add lxsli/dotfiles
 cd dotfiles
-git submodule update   # needed?
+git submodule update --init
 cd ..
 bin/dot update
 ----

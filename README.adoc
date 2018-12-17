@@ -24,6 +24,15 @@ chmod +x ~/localbin/nvim
 
 Now launch Vim and run `:PluginInstall`.
 
+Fix parinfer-rust:
+
+[source,bash]
+----
+cd $VIMB/parinfer-rust
+sudo apt install cargo
+cargo build --release
+----
+
 Also consider installing:
 
 * https://github.com/lastpass/lastpass-cli/releases - extract, `make`, `mv build/lpass ~/localbin`

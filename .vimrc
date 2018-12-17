@@ -17,7 +17,7 @@ Plugin 'chrisbra/NrrwRgn'
 Plugin 'chrisbra/SudoEdit.vim'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'elzr/vim-json'
-Plugin 'eraserhd/parinfer-rust'
+Plugin 'eraserhd/parinfer-rust', {'do': 'cargo build --release'}
 Plugin 'ervandew/supertab'
 Plugin 'gastonsimone/vim-dokumentary'
 Plugin 'godlygeek/tabular'

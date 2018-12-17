@@ -68,7 +68,7 @@ path[1,0]=(
   ~/go/bin
 )
 
-export VIMB=$DOTBASE/vimbundles
+export VIMB=$DOTBASE/.vim/bundle
 export GOPATH=~/go
 
 # Completion

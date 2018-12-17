@@ -43,7 +43,7 @@ Plugin 'tpope/vim-fireplace'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-projectionist'
 Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-sexp-mappings-for-regular-people'
+" Plugin 'tpope/vim-sexp-mappings-for-regular-people'
 Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-surround'
 " Plugin 'tpope/vim-unimpaired'
@@ -52,7 +52,7 @@ Plugin 'venantius/vim-cljfmt'
 Plugin 'xenomachina/public', {'rtp': 'vim/'}
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-session'
-Plugin 'lxsli/vim-unstack'
+" Plugin 'lxsli/vim-unstack'
 Plugin 'lxsli/personal.vim'
 call vundle#end()
 filetype plugin indent on
@@ -75,6 +75,7 @@ exec "set undodir=". g:dotbase ."/.vim/undo"
 set undofile
 colorscheme jellybeans
 " set termguicolors
+let g:python3_host_prog = '~/pyve/bin/python3'
 
 " Gresham
 "set noet
@@ -158,6 +159,10 @@ map 't :tabnew
 map 'T :tabc
 nnoremap 's :vert botright new
 nnoremap 'S :bel new
+map [a :prev
+map ]a :next
+map [A :first
+map ]A :last
 map [w :wincmd h
 map ]w :wincmd l
 map [W :wincmd t:2wincmd l:2wincmd h

@@ -75,7 +75,8 @@ exec "set undodir=". g:dotbase ."/.vim/undo"
 set undofile
 colorscheme jellybeans
 " set termguicolors
-let g:python3_host_prog = '~/pyve/bin/python3'
+let g:python_host_prog = $HOME .'/pyve2.7/bin/python2'
+let g:python3_host_prog = $HOME .'/pyve/bin/python3'
 
 " Gresham
 "set noet
@@ -94,54 +95,54 @@ onoremap <BS> %
 vnoremap <BS> %
 map M 10j
 map L 10k
-map '' :update
-map 'w :x
-map 'q :q
-map 'Q :q!
-map <C-Q> :qa
-map 'e :ls:e<space>
-" map 'E :e "
-map 'E :e %:h/
-map '@ :e!%
-map '# :e#
-map '~ :e!#
-map '. :cd %:h
-exec "map 'v :vert botright new ~/.vimrc"
-map 'V :exec ":vert botright new $VIMB/_lxs/after/ftplugin/". &ft .".vim"
+nmap '' :update
+nmap 'w :x
+nmap 'q :q
+nmap 'Q :q!
+nmap <C-Q> :qa
+nmap 'e :ls:e<space>
+" nmap 'E :e "
+nmap 'E :e %:h/
+nmap '@ :e!%
+nmap '# :e#
+nmap '~ :e!#
+nmap '. :cd %:h
+exec "nmap 'v :vert botright new ~/.vimrc"
+nmap 'V :exec ":vert botright new $VIMB/_lxs/after/ftplugin/". &ft .".vim"
 " if has("win32")
-"     map 'V :e ~/_vimrc
+"     nmap 'V :e ~/_vimrc
 " else
-"     map 'V :e ~/.vimrc
+"     nmap 'V :e ~/.vimrc
 " endif
-exec "map 'z :e ~/.zshrc"
-map Z @@
-map Q @q
-map # .n
-map 'l :llist:ll
+exec "nmap 'z :e ~/.zshrc"
+nmap Z @@
+nmap Q @q
+nmap # .n
+nmap 'l :llist:ll
 " Exec current line as an Ex command
 nnoremap <F12> 0y$:<C-R>"
 nnoremap <expr> <C-n> ":let @/=escape(@".v:register.", '\\/.*$^~[]')<cr>:exec 'norm /'.@/<cr>n"
 com! Qa qa
-map coH :let @/=""
-map X pk"_dd
-map 'm :!make
+nmap coH :let @/=""
+nmap X pk"_dd
+nmap 'm :!make
 
 if has("win32")
-  map 'x :update \| !del %
-  map 'Y :%y *
+  nmap 'x :update \| !del %
+  nmap 'Y :%y *
   vmap Y "*y
-  map 'P :%d"*]pggdd
+  nmap 'P :%d"*]pggdd
 else
-  map 'x :update \| !rm %
-  map 'Y :%y +
+  nmap 'x :update \| !rm %
+  nmap 'Y :%y +
   vmap Y "+y
-  map 'P :%d"+]pggdd
+  nmap 'P :%d"+]pggdd
 endif
-"map 'D :%d \| w!
-map 'du :diffupdate
-map 'dt :diffthis
-map 'do :diffoff
-map 'dw :call ToggleIWhite()
+"nmap 'D :%d \| w!
+nmap 'du :diffupdate
+nmap 'dt :diffthis
+nmap 'do :diffoff
+nmap 'dw :call ToggleIWhite()
 function! ToggleIWhite() abort
     if stridx(&diffopt, "iwhite") == -1
         set diffopt+=iwhite
@@ -150,25 +151,29 @@ function! ToggleIWhite() abort
     endif
 endf
 
-" vim-unimpaired extensions
-map <F8> '':prev
-map <F9> '':next
-map <S-F8> '':first
-map <S-F9> '':last
-map 't :tabnew
-map 'T :tabc
+" vim-unimpaired
+nmap <F8> '':prev
+nmap <F9> '':next
+nmap <S-F8> '':first
+nmap <S-F9> '':last
+nmap 't :tabnew
+nmap 'T :tabc
 nnoremap 's :vert botright new
 nnoremap 'S :bel new
-map [a :prev
-map ]a :next
-map [A :first
-map ]A :last
-map [w :wincmd h
-map ]w :wincmd l
-map [W :wincmd t:2wincmd l:2wincmd h
-map ]W :wincmd b
+nmap [a :prev
+nmap ]a :next
+nmap [A :first
+nmap ]A :last
+nmap [w :wincmd h
+nmap ]w :wincmd l
+nmap [W :wincmd t:2wincmd l:2wincmd h
+nmap ]W :wincmd b
 nnoremap [t :tabprev\|diffupdate
 nnoremap ]t :tabnext\|diffupdate
+
+nmap [<Space> :<C-U>put!=repeat(nr2char(10), v:count)<CR>
+nmap ]<Space> :<C-U>put =repeat(nr2char(10), v:count)<CR>
+" end unimpaired
 
 function! ToggleClipMode() abort
     if exists('b:ClipMode') && b:ClipMode == 1
@@ -181,7 +186,7 @@ function! ToggleClipMode() abort
     endif
 endf
 com! ClipMode call ToggleClipMode()
-map coC :ClipMode
+nmap coC :ClipMode
 
 vnoremap <A-k> :m-2gv=gv
 vnoremap <A-j> :m'>+gv=gv
@@ -240,7 +245,7 @@ nmap '<space> gcc
 xmap '<space> gc
 
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-map '/ :NERDTreeToggle<CR>
+nmap '/ :NERDTreeToggle<CR>
 let g:NERDTreeQuitOnOpen = 1
 
 au BufEnter Jenkinsfile set ft=groovy
@@ -252,8 +257,8 @@ let g:ConqueTerm_SessionSupport = 1
 set tags=~/.tags
 
 " ctrlp
-map '; :CtrlPMixed
-map ': :CtrlP
+nmap '; :CtrlPMixed
+nmap ': :CtrlP
 set wildignore+=*.so,*.exe,*.swp,*.zip,*.pyc
 set wildignore+=*/tmp/*    " MacOSX/Linux
 set wildignore+=*\\tmp\\*  " Windows
@@ -263,13 +268,13 @@ let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-stand
 let g:ctrlp_use_caching = 0
 
 "unstack
-map ys* :UnstackFromSelection<CR>
-map ys+ :UnstackFromClipboard<CR>
+nmap ys* :UnstackFromSelection<CR>
+nmap ys+ :UnstackFromClipboard<CR>
 
 "accordion
 let g:accordion_size=3
-map 'ar :AccordionZoomIn
-map 'am :AccordionZoomOut
+nmap 'ar :AccordionZoomIn
+nmap 'am :AccordionZoomOut
 
 "gundo
 nnoremap U :GundoToggle<CR>
@@ -316,7 +321,7 @@ ab (+-) ±
 ab (^2) ²
 ab (^3) ³
 
-" map 'J i<CR><ESC>%a<CR><ESC>k:.!sed "s/'/\"/g; s/None/null/g" \| jq .<CR>
+" nmap 'J i<CR><ESC>%a<CR><ESC>k:.!sed "s/'/\"/g; s/None/null/g" \| jq .<CR>
 
 if has("gui_running")
   set lines=999

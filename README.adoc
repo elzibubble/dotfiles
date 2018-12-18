@@ -33,17 +33,20 @@ sudo apt install cargo
 cargo build --release
 ----
 
-Setup a Python3 venv:
+Setup Python venvs (2.7 is needed for Gundo):
 
 [source,bash]
 ----
 cd
-sudo apt install python3 python3-pip python3-venv
+sudo apt install python3 python3-pip python3-venv virtualenv
 python3 -m venv pyve
+
 # Optionally, edit ~/pyve/bin/activate to set PS1="φ $PS1"
-. ~/pyve/bin/activate
-pip install neovim
-deactivate
+~/pyve/bin/pip install neovim
+
+virtualenv pyve2.7
+# Optionally, edit ~/pyve2.7/bin/activate to set PS1="2.7φ $PS1"
+~/pyve2.7/bin/pip install neovim
 ----
 
 Also consider installing:

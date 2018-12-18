@@ -7,7 +7,7 @@
 
   #-c 'tabdo windo set nofoldenable foldcolumn=0' \
   # --cmd 'set shortmess+=A' \
-exec vim \
+exec nvim \
   -n \
   -c 'silent call TabMultiDiff()' \
   -c 'tabfirst' \

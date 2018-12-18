@@ -80,9 +80,9 @@
   mkprall = "!git mkpr -r JamesLaverack,thewonderbull,mt3593,leesaxbygresham,wkerswell-gresham,pauladagostino,sflower0"
   getpr = "!hub pr checkout"
 [diff]
-  tool = vimdiff
+  tool = nvim -d
 [merge]
-  tool = vimdiff
+  tool = nvim -d
 [difftool]
   prompt = false
 [multidiff]

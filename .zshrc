@@ -94,6 +94,11 @@ loadFnDir() {
 }
 loadFnDir $DOTBASE/.zfuns/funs
 
+# Automatically enable my Python3 VE
+if [[ -d "$HOME/pyve" ]]; then
+  pyve
+fi
+
 # Pick values out of a prettytable
 grok() {
     PAT=

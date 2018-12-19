@@ -148,11 +148,11 @@ function hi_ip() { egrep "[0-9]+\.[0-9]+|" --color=always $@ }
 
 function vim() { nvim "$@" }
 function vc() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git ls "$@") ) }
-function vcp() { ( cd "$(git rev-parse --show-toplevel)"; vim "$(git ls "$@" | percol)" ) }
+function vcp() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git ls "$@" | percol) ) }
 function vs() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git lss "$@") ) }
-function vsp() { ( cd "$(git rev-parse --show-toplevel)"; vim "$(git lss "$@" | percol)" ) }
+function vsp() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git lss "$@" | percol) ) }
 function vu() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git untracked "$@") ) }
-function vup() { ( cd "$(git rev-parse --show-toplevel)"; vim "$(git untracked "$@" | percol)" ) }
+function vup() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git untracked "$@" | percol) ) }
 function pv() { vim $($@ | percol) }
 function pon() { . proxy-on && "$@" }
 function poff() { . proxy-off && "$@" }

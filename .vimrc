@@ -108,7 +108,7 @@ nmap '# :e#
 nmap '~ :e!#
 nmap '. :cd %:h
 exec "nmap 'v :vert botright new ~/.vimrc"
-nmap 'V :exec ":vert botright new $VIMB/_lxs/after/ftplugin/". &ft .".vim"
+nmap 'V :exec ":vert botright new $VIMB/personal/after/ftplugin/". &ft .".vim"<CR>
 " if has("win32")
 "     nmap 'V :e ~/_vimrc
 " else

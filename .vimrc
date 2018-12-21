@@ -53,7 +53,6 @@ Plugin 'xenomachina/public', {'rtp': 'vim/'}
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-session'
 " Plugin 'lxsli/vim-unstack'
-Plugin 'lxsli/personal.vim'
 call vundle#end()
 filetype plugin indent on
 

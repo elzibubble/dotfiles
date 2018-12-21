@@ -53,11 +53,11 @@ Plugin 'xenomachina/public', {'rtp': 'vim/'}
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-session'
 " Plugin 'lxsli/vim-unstack'
+Plugin 'lxsli/ftplugins'
 call vundle#end()
 filetype plugin indent on
 
 syn on
-filetype plugin indent on
 set nocompatible bs=2
 set ts=4 sw=4 et ai nojs
 set so=15
@@ -107,7 +107,7 @@ nmap '# :e#
 nmap '~ :e!#
 nmap '. :cd %:h
 exec "nmap 'v :vert botright new ~/.vimrc"
-nmap 'V :exec ":vert botright new $VIMB/personal/after/ftplugin/". &ft .".vim"<CR>
+nmap 'V :exec ":vert botright new $VIMB/ftplugins/after/ftplugin/". &ft .".vim"<CR>
 " if has("win32")
 "     nmap 'V :e ~/_vimrc
 " else

@@ -22,6 +22,7 @@ Plugin 'ervandew/supertab'
 Plugin 'gastonsimone/vim-dokumentary'
 Plugin 'godlygeek/tabular'
 Plugin 'guns/vim-sexp'
+Plugin 'jceb/vim-textobj-uri'
 Plugin 'jreybert/vimagit'
 Plugin 'kana/vim-textobj-indent'
 Plugin 'kana/vim-textobj-user'
@@ -125,6 +126,7 @@ com! Qa qa
 nmap coH :let @/=""
 nmap X pk"_dd
 nmap 'm :!make
+nnoremap gx :normal mxviugx<Esc>`x
 
 if has("win32")
   nmap 'x :update \| !del %
@@ -151,6 +153,8 @@ function! ToggleIWhite() abort
 endf
 
 " vim-unimpaired
+nmap coi :set ignorecase!<CR>
+nmap coh :set hls!<CR>
 nmap <F8> '':prev
 nmap <F9> '':next
 nmap <S-F8> '':first
@@ -250,7 +254,8 @@ let g:NERDTreeQuitOnOpen = 1
 au BufEnter Jenkinsfile set ft=groovy
 
 " let g:ConqueTerm_CWInsert = 1
-let g:ConqueTerm_SessionSupport = 1
+" let g:ConqueTerm_SessionSupport = 1
+" com! ConqueTermReload exec "ConqueTerm ". strpart(bufname(""), 0, strlen(bufname("")) - 4)
 
 " ctags
 set tags=~/.tags
@@ -326,8 +331,6 @@ if has("gui_running")
   set lines=999
   set columns=84
 endif
-
-com! ConqueTermReload exec "ConqueTerm ". strpart(bufname(""), 0, strlen(bufname("")) - 4)
 
 function! MaxWin() abort
     "winpos -4 -4

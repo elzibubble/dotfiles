@@ -76,7 +76,7 @@
   delbr = "!_CBR=$(git ref); git rmrbr; git com; git br -D \"$_CBR\""
 
   mkpr = "!hub pull-request"
-  mkpreng = "!git mkpr -r JamesLaverack,thewonderbull,mt3593"
+  mkpreng = "!git mkpr -r JamesLaverack,thewonderbull,mt3593,GreshamDanielStephens"
   mkprall = "!git mkpr -r JamesLaverack,thewonderbull,mt3593,leesaxbygresham,wkerswell-gresham,pauladagostino,sflower0"
   getpr = "!hub pr checkout"
 [diff]

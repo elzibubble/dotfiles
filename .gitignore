@@ -9,3 +9,5 @@
 .*.sw?
 
 target/
+.lein/self-installs
+.lein/repl-history

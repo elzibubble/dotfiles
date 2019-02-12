@@ -15,11 +15,12 @@ Plugin 'avakhov/vim-yaml'
 Plugin 'bps/vim-textobj-python'
 Plugin 'chrisbra/NrrwRgn'
 Plugin 'chrisbra/SudoEdit.vim'
+Plugin 'christianrondeau/vim-base64'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'elzr/vim-json'
 Plugin 'eraserhd/parinfer-rust', {'do': 'cargo build --release'}
 Plugin 'ervandew/supertab'
-Plugin 'gastonsimone/vim-dokumentary'
+" Plugin 'gastonsimone/vim-dokumentary'
 Plugin 'godlygeek/tabular'
 Plugin 'guns/vim-sexp'
 Plugin 'jceb/vim-textobj-uri'
@@ -47,8 +48,8 @@ Plugin 'tpope/vim-repeat'
 " Plugin 'tpope/vim-sexp-mappings-for-regular-people'
 Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-surround'
-" Plugin 'tpope/vim-unimpaired'
-Plugin 'typedclojure/vim-typedclojure'
+Plugin 'tpope/vim-unimpaired'
+" Plugin 'typedclojure/vim-typedclojure'
 Plugin 'venantius/vim-cljfmt'
 Plugin 'xenomachina/public', {'rtp': 'vim/'}
 Plugin 'xolox/vim-misc'
@@ -60,7 +61,7 @@ filetype plugin indent on
 
 syn on
 set nocompatible bs=2
-set ts=4 sw=4 et ai nojs
+set ts=2 sw=2 et ai nojs
 set so=15
 set hls is
 "set relativenumber number ruler
@@ -77,6 +78,11 @@ colorscheme jellybeans
 " set termguicolors
 let g:python_host_prog = $HOME .'/pyve2.7/bin/python2'
 let g:python3_host_prog = $HOME .'/pyve/bin/python3'
+
+if has("gui_running")
+  set lines=999
+  set columns=84
+endif
 
 " Gresham
 "set noet
@@ -153,29 +159,31 @@ function! ToggleIWhite() abort
 endf
 
 " vim-unimpaired
-nmap coi :set ignorecase!<CR>
-nmap coh :set hls!<CR>
+" replacements
+" nmap coi :set ignorecase!<CR>
+" nmap coh :set hls!<CR>
+" nmap [a :prev
+" nmap ]a :next
+" nmap [A :first
+" nmap ]A :last
+" nmap [<Space> :<C-U>put!=repeat(nr2char(10), v:count)<CR>
+" nmap ]<Space> :<C-U>put =repeat(nr2char(10), v:count)<CR>
+" nnoremap [t :tabprev\|diffupdate
+" nnoremap ]t :tabnext\|diffupdate
+
+" extensions
+nnoremap 's :vert botright new
+nnoremap 'S :bel new
+nmap 't :tabnew
+nmap 'T :tabc
 nmap <F8> '':prev
 nmap <F9> '':next
 nmap <S-F8> '':first
 nmap <S-F9> '':last
-nmap 't :tabnew
-nmap 'T :tabc
-nnoremap 's :vert botright new
-nnoremap 'S :bel new
-nmap [a :prev
-nmap ]a :next
-nmap [A :first
-nmap ]A :last
-nmap [w :wincmd h
-nmap ]w :wincmd l
-nmap [W :wincmd t:2wincmd l:2wincmd h
-nmap ]W :wincmd b
-nnoremap [t :tabprev\|diffupdate
-nnoremap ]t :tabnext\|diffupdate
-
-nmap [<Space> :<C-U>put!=repeat(nr2char(10), v:count)<CR>
-nmap ]<Space> :<C-U>put =repeat(nr2char(10), v:count)<CR>
+nmap [w :wincmd h<CR>
+nmap ]w :wincmd l<CR>
+nmap [W :99wincmd h<CR>
+nmap ]W :99wincmd l<CR>
 " end unimpaired
 
 function! ToggleClipMode() abort
@@ -276,7 +284,8 @@ nmap ys* :UnstackFromSelection<CR>
 nmap ys+ :UnstackFromClipboard<CR>
 
 "accordion
-let g:accordion_size=3
+au VimEnter * let g:accordion_size=max([2, &columns/100])
+au VimResized * let g:accordion_size=max([2, &columns/100])
 nmap 'ar :AccordionZoomIn
 nmap 'am :AccordionZoomOut
 
@@ -298,7 +307,9 @@ let g:ycm_autoclose_preview_window_after_completion=1
 nnoremap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " vim-better-whitespace
-au BufEnter * EnableStripWhitespaceOnSave
+let g:strip_whitespace_on_save=1
+let g:strip_whitespace_confirm=0
+let g:strip_only_modified_lines=0
 " let g:better_whitespace_filetypes_blacklist=['diff', 'gitcommit', 'unite', 'qf', 'help', 'markdown']
 
 
@@ -313,6 +324,7 @@ ab (zap) ⚡
 ab (note) ♪
 ab (notes) ♫
 ab (sharp) ♯
+ab (pound) £
 ab (euro) €
 ab (yen) ¥
 ab (fn) ƒ
@@ -326,11 +338,6 @@ ab (^2) ²
 ab (^3) ³
 
 " nmap 'J i<CR><ESC>%a<CR><ESC>k:.!sed "s/'/\"/g; s/None/null/g" \| jq .<CR>
-
-if has("gui_running")
-  set lines=999
-  set columns=84
-endif
 
 function! MaxWin() abort
     "winpos -4 -4

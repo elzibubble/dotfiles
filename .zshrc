@@ -2,7 +2,8 @@
 HISTFILE=~/.histfile
 HISTSIZE=100000
 SAVEHIST=100000
-setopt autocd extendedglob hist_ignore_all_dups
+setopt autocd extendedglob hist_ignore_all_dups share_history
+# inc_append_history
 bindkey -e
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
@@ -21,6 +22,10 @@ export WORKSPACE=$HOME/w
 export DEPLOY=$HOME/deploy
 export CCM_SNAPSHOTS_URL=https://nexus.greshamtech.com/content/repositories/ccm-snapshots/
 export KUBE_NS=tempest
+nix_sh="$HOME/.nix-profile/etc/profile.d/nix.sh"
+if [[ -f "$nix_sh" ]]; then
+  . "$nix_sh"
+fi
 
 # Git
 export GIT_PS1_SHOWDIRTYSTATE=1
@@ -66,6 +71,7 @@ path[1,0]=(
   ~/bin
   ~/Dropbox/bin
   ~/go/bin
+  ~/w/ccm/bin
 )
 
 export VIMB=$DOTBASE/.vim/bundle

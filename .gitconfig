@@ -1,8 +1,9 @@
 [user]
   email = alee@greshamtech.com
+  email = openstack@lxsli.co.uk
   name = Alexis Lee
 [gitreview]
-  username = alee
+  username = lxsli
 [alias]
   # Try and find a symbolic ref (branch or tag name) for the current commit
   ref = "!git symbolic-ref --short ${1:-HEAD} 2> /dev/null || git rev-parse ${1:-HEAD}"
@@ -26,8 +27,8 @@
   ds = multidiff --cached
   dw = multidiff
   mt = mergetool
-  cir = commit -a --amend --no-edit
-  cia = commit -a --amend
+  cir = commit --amend --no-edit
+  cia = commit --amend
   pr = pull --rebase
   # `git pr` on the `git main` branch
   pm = "!_CBR=$(git ref); if [ \"$_CBR\" != \"$(git main)\" ]; then git com; git pr; git co $_CBR; else git pr; fi"

@@ -89,7 +89,7 @@
 [multidiff]
   tool = vd -f
 [core]
-  excludesfile = ~/Dropbox/.gitignore
+  excludesfile = ~/.git_global_ignore
 [push]
   default = simple
 [credential]

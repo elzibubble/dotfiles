@@ -1,6 +1,4 @@
 let g:dotbase="~"
-" exec 'so '. g:dotbase .'/vimbundles/pathogen.vim'
-" exec "call pathogen#infect('". g:dotbase ."/vimbundles/{}')"
 
 " Vundle
 filetype off
@@ -25,6 +23,7 @@ Plugin 'godlygeek/tabular'
 Plugin 'guns/vim-sexp'
 Plugin 'jceb/vim-textobj-uri'
 Plugin 'jreybert/vimagit'
+Plugin 'junegunn/fzf', {'do': './install --all'}
 Plugin 'kana/vim-textobj-indent'
 Plugin 'kana/vim-textobj-user'
 Plugin 'kien/ctrlp.vim'
@@ -48,12 +47,12 @@ Plugin 'tpope/vim-repeat'
 " Plugin 'tpope/vim-sexp-mappings-for-regular-people'
 Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-unimpaired'
 " Plugin 'typedclojure/vim-typedclojure'
 Plugin 'venantius/vim-cljfmt'
 Plugin 'xenomachina/public', {'rtp': 'vim/'}
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-session'
+Plugin 'lxsli/vim-unimpaired'
 " Plugin 'lxsli/vim-unstack'
 Plugin 'lxsli/ftplugins'
 call vundle#end()
@@ -129,7 +128,6 @@ nmap 'l :llist:ll
 nnoremap <F12> 0y$:<C-R>"
 nnoremap <expr> <C-n> ":let @/=escape(@".v:register.", '\\/.*$^~[]')<cr>:exec 'norm /'.@/<cr>n"
 com! Qa qa
-nmap coH :let @/=""
 nmap X pk"_dd
 nmap 'm :!make
 nnoremap gx :normal mxviugx<Esc>`x
@@ -160,22 +158,25 @@ endf
 
 " vim-unimpaired
 " replacements
-" nmap coi :set ignorecase!<CR>
-" nmap coh :set hls!<CR>
+" nmap yoi :set ignorecase!<CR>
+" nmap yoh :set hls!<CR>
 " nmap [a :prev
 " nmap ]a :next
 " nmap [A :first
 " nmap ]A :last
 " nmap [<Space> :<C-U>put!=repeat(nr2char(10), v:count)<CR>
 " nmap ]<Space> :<C-U>put =repeat(nr2char(10), v:count)<CR>
-" nnoremap [t :tabprev\|diffupdate
-" nnoremap ]t :tabnext\|diffupdate
 
 " extensions
+nmap yoH :let @/=""
 nnoremap 's :vert botright new
 nnoremap 'S :bel new
 nmap 't :tabnew
 nmap 'T :tabc
+" nnoremap [t :tabprev
+" nnoremap ]t :tabnext
+" nnoremap [T :tabfirst
+" nnoremap ]T :tablast
 nmap <F8> '':prev
 nmap <F9> '':next
 nmap <S-F8> '':first
@@ -197,7 +198,7 @@ function! ToggleClipMode() abort
     endif
 endf
 com! ClipMode call ToggleClipMode()
-nmap coC :ClipMode
+nmap yoC :ClipMode
 
 vnoremap <A-k> :m-2gv=gv
 vnoremap <A-j> :m'>+gv=gv
@@ -221,11 +222,11 @@ noremap \<C-f> <C-f>
 hi Naughty ctermfg=white guifg=white ctermbg=red guibg=red
 hi Good guifg=green ctermfg=green
 hi Good2 term=bold guibg=#AAFFAA guifg=black ctermfg=black
-hi LineNr ctermfg=5 guifg=Brown
-hi CursorLineNr term=bold cterm=bold ctermfg=3 gui=bold guifg=Yellow
+" hi LineNr ctermfg=5 guifg=Brown
+" hi CursorLineNr term=bold cterm=bold ctermfg=3 gui=bold guifg=Yellow
 hi Search gui=underline guibg=#300024 guifg=#FFFF55
-hi ColorColumn ctermbg=black guibg=black
-au CursorMoved * hi clear CursorLine
+" hi ColorColumn ctermbg=black guibg=black
+" au CursorMoved * hi clear CursorLine
 
 " au Syntax * syn match Naughty /\s\+$/ containedin=ALL
 " au Syntax * syn match Naughty /^\s*\t/ containedin=ALL
@@ -238,8 +239,10 @@ setlocal omnifunc=htmlcomplete#CompleteTags
 nmap  a
 inoremap  </
 
-au VimEnter * RainbowParenthesesToggle
+au VimEnter * RainbowParenthesesActivate
 au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
 
 "syntastic
 "com! SyntasticPythonLoose let g:syntastic_python_checkers=['python']
@@ -269,8 +272,9 @@ au BufEnter Jenkinsfile set ft=groovy
 set tags=~/.tags
 
 " ctrlp
-nmap '; :CtrlPMixed
-nmap ': :CtrlP
+" nmap '; :CtrlPMixed
+" nmap ': :CtrlP
+nmap '; :FZF<CR>
 set wildignore+=*.so,*.exe,*.swp,*.zip,*.pyc
 set wildignore+=*/tmp/*    " MacOSX/Linux
 set wildignore+=*\\tmp\\*  " Windows
@@ -311,6 +315,9 @@ let g:strip_whitespace_on_save=1
 let g:strip_whitespace_confirm=0
 let g:strip_only_modified_lines=0
 " let g:better_whitespace_filetypes_blacklist=['diff', 'gitcommit', 'unite', 'qf', 'help', 'markdown']
+
+" projectionist
+nmap 'av :botright AV<CR>
 
 
 "--- Fancy stuff

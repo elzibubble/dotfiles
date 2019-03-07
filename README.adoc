@@ -53,3 +53,6 @@ Also consider installing:
 
 * https://github.com/lastpass/lastpass-cli/releases - extract, `make`, `mv build/lpass ~/localbin`
 * https://github.com/github/hub/releases - extract, `mv bin/hub ~/localbin`
+* https://github.com/lxsli/convert-json
+* helm helmsman kubectl kustomize minikube tiller
+* vale

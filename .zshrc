@@ -74,6 +74,8 @@ path[1,0]=(
   ~/w/ccm/bin
 )
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 export VIMB=$DOTBASE/.vim/bundle
 export GOPATH=~/go
 

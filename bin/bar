@@ -1,5 +1,8 @@
 #!/bin/bash
 
-echo -n "$(tput setab ${1:-0})"
-yes ' ' | head -$COLUMNS | tr -d "\n"
+echo -n "$(tput setab 3)"
+bar="$(yes ' ' | head -$COLUMNS | tr -d "\n")"
+for I in $(seq 0 ${1:-1}); do
+  echo "$bar"
+done
 echo -n "$(tput sgr0)"

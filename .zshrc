@@ -2,8 +2,8 @@
 HISTFILE=~/.histfile
 HISTSIZE=100000
 SAVEHIST=100000
-setopt autocd extendedglob hist_ignore_all_dups share_history
-# inc_append_history
+setopt autocd extendedglob hist_ignore_all_dups inc_append_history
+# share_history
 bindkey -e
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
@@ -21,7 +21,10 @@ export DOTBASE=$HOME
 export WORKSPACE=$HOME/w
 export DEPLOY=$HOME/deploy
 export CCM_SNAPSHOTS_URL=https://nexus.greshamtech.com/content/repositories/ccm-snapshots/
-export KUBE_NS=tempest
+case $(kubectl config current-context) in
+  orion) export KUBE_NS=crow ;;
+  minikube) export KUBE_NS=tempest ;;
+esac
 nix_sh="$HOME/.nix-profile/etc/profile.d/nix.sh"
 if [[ -f "$nix_sh" ]]; then
   . "$nix_sh"
@@ -44,7 +47,7 @@ export LEIN_FAST_TRAMPOLINE=1
 
 setopt prompt_subst
 # export PROMPT='$(myzshprompt)'
-export PROMPT="$FG_[yellow]\$(echo \${KUBE_NS:-%M})$RESET_ $FG_[green]\$(__git_ps1 '%s')$RESET_%# %B"
+export PROMPT="$FG_[yellow]\$(echo \$(kubectl config current-context)/\${KUBE_NS:-%M})$RESET_ $FG_[green]\$(__git_ps1 '%s')$RESET_%# %B"
 export RPROMPT='%~ %*'
 preexec() {
   echo -n "$RESET"
@@ -71,10 +74,11 @@ path[1,0]=(
   ~/bin
   ~/Dropbox/bin
   ~/go/bin
-  ~/w/ccm/bin
+  ~/.yarn/bin
+  ~/node_modules/node-cljfmt/bin
 )
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export VIMB=$DOTBASE/.vim/bundle
 export GOPATH=~/go

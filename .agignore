@@ -3,3 +3,4 @@
 *.min.js
 *.test.js.snap
 *.graphql.js
+node_modules

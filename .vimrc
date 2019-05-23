@@ -1,62 +1,66 @@
 let g:dotbase="~"
 
-" Vundle
-filetype off
-exec 'set rtp+=~/.vundle'
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'AndrewRadev/splitjoin.vim'
-Plugin 'FelikZ/ctrlp-py-matcher'
-Plugin 'PeterRincker/vim-argumentative'
-Plugin 'Shougo/neocomplete'
-Plugin 'avakhov/vim-yaml'
-Plugin 'bps/vim-textobj-python'
-Plugin 'chrisbra/NrrwRgn'
-Plugin 'chrisbra/SudoEdit.vim'
-Plugin 'christianrondeau/vim-base64'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'elzr/vim-json'
-Plugin 'eraserhd/parinfer-rust', {'do': 'cargo build --release'}
-Plugin 'ervandew/supertab'
-" Plugin 'gastonsimone/vim-dokumentary'
-Plugin 'godlygeek/tabular'
-Plugin 'guns/vim-sexp'
-Plugin 'jceb/vim-textobj-uri'
-Plugin 'jreybert/vimagit'
-Plugin 'junegunn/fzf', {'do': './install --all'}
-Plugin 'kana/vim-textobj-indent'
-Plugin 'kana/vim-textobj-user'
-Plugin 'kien/ctrlp.vim'
-Plugin 'kien/rainbow_parentheses.vim'
-Plugin 'mattboehm/vim-accordion'
-Plugin 'michaeljsmith/vim-indent-object'
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'ntpeters/vim-better-whitespace'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/syntastic'
-Plugin 'sgur/vim-textobj-parameter'
-Plugin 'sjl/gundo.vim'
-Plugin 'tpope/vim-abolish'
-Plugin 'tpope/vim-classpath'
-Plugin 'tpope/vim-commentary'
-" Plugin 'tpope/vim-dispatch'
-Plugin 'tpope/vim-fireplace'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-projectionist'
-Plugin 'tpope/vim-repeat'
-" Plugin 'tpope/vim-sexp-mappings-for-regular-people'
-Plugin 'tpope/vim-speeddating'
-Plugin 'tpope/vim-surround'
-" Plugin 'typedclojure/vim-typedclojure'
-Plugin 'venantius/vim-cljfmt'
-Plugin 'xenomachina/public', {'rtp': 'vim/'}
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-session'
-Plugin 'lxsli/vim-unimpaired'
-" Plugin 'lxsli/vim-unstack'
-Plugin 'lxsli/ftplugins'
-call vundle#end()
-filetype plugin indent on
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/bundle')
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'PeterRincker/vim-argumentative'
+Plug 'avakhov/vim-yaml'
+Plug 'bps/vim-textobj-python'
+Plug 'chiel92/vim-autoformat'
+Plug 'chrisbra/NrrwRgn'
+Plug 'chrisbra/SudoEdit.vim'
+Plug 'christianrondeau/vim-base64'
+" Plug 'christoomey/vim-tmux-navigator'
+" Plug 'clojure-vim/acid.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'elzr/vim-json'
+Plug 'eraserhd/parinfer-rust', {'do': 'cargo build --release'}
+Plug 'ervandew/supertab'
+" Plug 'gastonsimone/vim-dokumentary'
+Plug 'godlygeek/tabular'
+Plug 'guns/vim-sexp'
+Plug 'jceb/vim-textobj-uri'
+Plug 'jreybert/vimagit'
+" Plug 'junegunn/fzf', {'do': './install --all'}
+Plug 'kana/vim-textobj-indent'
+Plug 'kana/vim-textobj-user'
+Plug 'kburdett/vim-nuuid'
+Plug 'kien/ctrlp.vim'
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'mattboehm/vim-accordion'
+Plug 'michaeljsmith/vim-indent-object'
+Plug 'nanotech/jellybeans.vim'
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'scrooloose/nerdtree'
+" Plug 'scrooloose/syntastic'
+Plug 'sgur/vim-textobj-parameter'
+Plug 'sjl/gundo.vim'
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-classpath'
+Plug 'tpope/vim-commentary'
+" Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-fireplace'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-repeat'
+" Plug 'tpope/vim-sexp-mappings-for-regular-people'
+Plug 'tpope/vim-speeddating'
+Plug 'tpope/vim-surround'
+" Plug 'typedclojure/vim-typedclojure'
+" Plug 'venantius/vim-cljfmt'
+Plug 'xenomachina/public', {'rtp': 'vim/'}
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-session'
+Plug 'lxsli/vim-unimpaired'
+" Plug 'lxsli/vim-unstack'
+Plug 'lxsli/ftplugins'
+call plug#end()
 
 syn on
 set nocompatible bs=2
@@ -77,6 +81,7 @@ colorscheme jellybeans
 " set termguicolors
 let g:python_host_prog = $HOME .'/pyve2.7/bin/python2'
 let g:python3_host_prog = $HOME .'/pyve/bin/python3'
+set grepprg=ag
 
 if has("gui_running")
   set lines=999
@@ -100,7 +105,7 @@ onoremap <BS> %
 vnoremap <BS> %
 map M 10j
 map L 10k
-nmap '' :update
+nmap '' :update:diffupdate
 nmap 'w :x
 nmap 'q :q
 nmap 'Q :q!
@@ -128,9 +133,18 @@ nmap 'l :llist:ll
 nnoremap <F12> 0y$:<C-R>"
 nnoremap <expr> <C-n> ":let @/=escape(@".v:register.", '\\/.*$^~[]')<cr>:exec 'norm /'.@/<cr>n"
 com! Qa qa
-nmap X pk"_dd
 nmap 'm :!make
 nnoremap gx :normal mxviugx<Esc>`x
+nmap <TAB> >>
+vmap <TAB> >
+nmap <S-TAB> <<
+vmap <S-TAB> <
+vmap X "_dP
+nmap X VX
+map <M-y> "ay
+map <M-S-y> "aY
+map <M-p> "ap
+map <M-S-p> "aP
 
 if has("win32")
   nmap 'x :update \| !del %
@@ -239,10 +253,23 @@ setlocal omnifunc=htmlcomplete#CompleteTags
 nmap  a
 inoremap  </
 
+" RainbowParen config
 au VimEnter * RainbowParenthesesActivate
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
+let g:rbpt_colorpairs = [
+      \ [118, 118],
+      \ ['yellow', 'yellow'],
+      \ ['cyan', 'cyan'],
+      \ ['red', 'firebrick1'],
+      \ ]
+
+" autoformat
+let g:autoformat_autoindent = 0
+let g:formatdef_cljfmt = '"cljfmt"'
+let g:formatters_clojure = ['cljfmt']
+au BufWrite * :Autoformat
 
 "syntastic
 "com! SyntasticPythonLoose let g:syntastic_python_checkers=['python']
@@ -272,9 +299,9 @@ au BufEnter Jenkinsfile set ft=groovy
 set tags=~/.tags
 
 " ctrlp
-" nmap '; :CtrlPMixed
-" nmap ': :CtrlP
-nmap '; :FZF<CR>
+nmap '; :CtrlPMixed
+nmap ': :CtrlP
+" nmap '; :FZF<CR>
 set wildignore+=*.so,*.exe,*.swp,*.zip,*.pyc
 set wildignore+=*/tmp/*    " MacOSX/Linux
 set wildignore+=*\\tmp\\*  " Windows
@@ -414,7 +441,90 @@ function! NRAdoc()
 endfunc
 com! NRAdoc call NRAdoc()
 
+" Supertab
+let g:SuperTabMappingForward = '<s-tab>'
+let g:SuperTabMappingBackward = '<tab>'
+
 com! Clj set ft=clojure
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" snoe
+
+" COC
+" let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
+" let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <localleader>u <Plug>(coc-references)
+nmap <localleader>rn <Plug>(coc-rename)
+command! -nargs=0 Format :call CocAction('format')
+
+let g:coc_enable_locationlist = 0
+autocmd User CocLocationsChange CocList --normal location
+
+inoremap <silent><expr> <c-space> coc#refresh()
+nmap <silent> [l <Plug>(coc-diagnostic-prev)
+nmap <silent> ]l <Plug>(coc-diagnostic-next)
+nmap <silent> [k :CocPrev<cr>
+nmap <silent> ]k :CocNext<cr>
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+function! Expand(exp) abort
+    let l:result = expand(a:exp)
+    return l:result ==# '' ? '' : "file://" . l:result
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+vmap <localleader>f <Plug>(coc-format-selected)
+nmap <localleader>f <Plug>(coc-format-selected)
+
+nnoremap <silent> crcc :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'cycle-coll', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
+nnoremap <silent> crth :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'thread-first', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
+nnoremap <silent> crtt :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'thread-last', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
+nnoremap <silent> crtf :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'thread-first-all', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
+nnoremap <silent> crtl :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'thread-last-all', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
+nnoremap <silent> cruw :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'unwind-thread', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
+nnoremap <silent> crua :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'unwind-all', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
+nnoremap <silent> crml :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'move-to-let', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1, input('Binding name: ')]})<CR>
+nnoremap <silent> cril :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'introduce-let', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1, input('Binding name: ')]})<CR>
+nnoremap <silent> crel :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'expand-let', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
+nnoremap <silent> cram :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'add-missing-libspec', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
+nnoremap <silent> crcn :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'clean-ns', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
+nnoremap <silent> cref :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'extract-function', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1, input('Function name: ')]})<CR>
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+vmap <localleader>a  <Plug>(coc-codeaction-selected)
+nmap <localleader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <localleader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <localleader>qf  <Plug>(coc-fix-current)
+
+autocmd BufReadCmd,FileReadCmd,SourceCmd jar:file://* call s:LoadClojureContent(expand("<amatch>"))
+ function! s:LoadClojureContent(uri)
+  setfiletype clojure
+  let content = CocRequest('clojure-lsp', 'clojure/dependencyContents', {'uri': a:uri})
+  call setline(1, split(content, "\n"))
+  setl nomodified
+  setl readonly
+endfunction
+
+highlight Normal guibg=#101010 guifg=white
+highlight CursorColumn guibg=#202020
+highlight Keyword guifg=#FFAB52
+highlight CursorLine guibg=#202020
 
 augroup END
 " vi:set ft=vim ts=4 sw=4 expandtab:

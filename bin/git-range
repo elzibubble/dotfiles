@@ -1,24 +1,34 @@
 #!/bin/bash
 
-SIMPLE=""
-if [[ "$1" == "--simple" ]]; then
-    SIMPLE=1
-    shift
-fi
+simple=""
+from=""
+to=""
+while (( ${#*} > 0 )); do
+  case $1 in
+    --simple) simple=1; shift;;
+    --) shift; break;;
+    *)
+      if [[ -z "$from" ]]; then
+        from=$1
+      elif [[ -z "$to" ]]; then
+        to=$1
+      fi
+      shift
+      ;;
+  esac
+done
 
-from="$1"
 if [ -z "$from" ]; then
     from="HEAD~1"
 elif [[ "$from" =~ ^[0-9]+$ ]]; then
     from="HEAD~$from"
 fi
 
-to="${2:-}"
 if [[ "$to" =~ ^[0-9]+$ ]]; then
     to="HEAD~$to"
 fi
 
-if [[ -n "$SIMPLE" ]] && [[ -z "$to" ]]; then
+if [[ -n "$simple" ]] && [[ -z "$to" ]]; then
     echo "$from"
 else
     echo "${from}..${to}"

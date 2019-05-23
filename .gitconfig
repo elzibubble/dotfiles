@@ -1,6 +1,6 @@
 [user]
-  email = alee@greshamtech.com
   email = openstack@lxsli.co.uk
+  email = alee@greshamtech.com
   name = Alexis Lee
 [gitreview]
   username = lxsli
@@ -8,6 +8,8 @@
   # Try and find a symbolic ref (branch or tag name) for the current commit
   ref = "!git symbolic-ref --short ${1:-HEAD} 2> /dev/null || git rev-parse ${1:-HEAD}"
 
+  dev = "!git clone git@github.com:$1 #"
+  gdev = "!git clone git@github.com:gresham-computing/$1 #"
   co = checkout
   # as-remote = "!if [[ \"${1%%/*}\" == \"remotes\" ]]; then echo \"$1\"; else echo \"remotes/origin/$1\"; fi"
   cot = checkout -t
@@ -17,15 +19,17 @@
   unstage = reset HEAD --
   msg = log -1 --stat
   ol = log -6 --pretty=oneline
-  ls = "!git --no-pager diff --name-only \"$(git range "$@")\" #"
-  lss = "!git status -s -- "$@" | sed 's/^...//; s/.* -> //' #"
+  ls = "!git --no-pager diff --name-only \"$(git range "$@")\" | ag -v generated #"
+  lss = "!git status -s -- "$@" | sed 's/^...//; s/.* -> //' | ag -v generated #"
   lsp = "!git ls | percol"
   lssp = "!git lss | percol"
   asp = "!git add $(git lss | percol)"
   brp = "!git br | percol"
-  d = "!git multidiff \"$(git range --simple "$@")\" #"
+  d = "!git multidiff \"$(git range --simple "$@")\" $(echo "$@" | awk -F-- '{print \"--\" $2}') #"
+  dp = "!git d -- $(git lsp) #"
   ds = multidiff --cached
   dw = multidiff
+  dwp = "!git dw -- $(git lssp) #"
   mt = mergetool
   cir = commit --amend --no-edit
   cia = commit --amend

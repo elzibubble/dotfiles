@@ -25,13 +25,14 @@ Plug 'ervandew/supertab'
 Plug 'godlygeek/tabular'
 Plug 'guns/vim-sexp'
 Plug 'jceb/vim-textobj-uri'
+Plug 'jeanCarloMachado/vim-toop'
 Plug 'jreybert/vimagit'
 " Plug 'junegunn/fzf', {'do': './install --all'}
 Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-user'
 Plug 'kburdett/vim-nuuid'
 Plug 'kien/ctrlp.vim'
-Plug 'kien/rainbow_parentheses.vim'
+" Plug 'kien/rainbow_parentheses.vim'
 Plug 'mattboehm/vim-accordion'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'nanotech/jellybeans.vim'
@@ -42,7 +43,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'sgur/vim-textobj-parameter'
 Plug 'sjl/gundo.vim'
 Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-classpath'
+" Plug 'tpope/vim-classpath'
 Plug 'tpope/vim-commentary'
 " Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fireplace'
@@ -97,6 +98,12 @@ nnoremap <Space> za
 
 augroup lxs
 au!
+function! Save()
+  update
+  if &diff
+    diffupdate
+  end
+endf
 
 imap jk <ESC>
 inoremap j\k jk
@@ -105,7 +112,7 @@ onoremap <BS> %
 vnoremap <BS> %
 map M 10j
 map L 10k
-nmap '' :update:diffupdate
+nmap '' :call Save()<CR>
 nmap 'w :x
 nmap 'q :q
 nmap 'Q :q!
@@ -130,7 +137,6 @@ nmap Q @q
 nmap # .n
 nmap 'l :llist:ll
 " Exec current line as an Ex command
-nnoremap <F12> 0y$:<C-R>"
 nnoremap <expr> <C-n> ":let @/=escape(@".v:register.", '\\/.*$^~[]')<cr>:exec 'norm /'.@/<cr>n"
 com! Qa qa
 nmap 'm :!make
@@ -141,10 +147,24 @@ nmap <S-TAB> <<
 vmap <S-TAB> <
 vmap X "_dP
 nmap X VX
-map <M-y> "ay
-map <M-S-y> "aY
-map <M-p> "ap
-map <M-S-p> "aP
+map <M-y> "yy
+map <M-S-y> "yY
+map <M-p> "yp
+map <M-S-p> "yP
+nmap <M-x> V"yp
+
+function! <SID>SourcePart(line1, line2)
+   let tmp = @z
+   silent exec a:line1.",".a:line2."yank z"
+   let @z = substitute(@z, '\n\s*\\', '', 'g')
+   @z
+   let @z = tmp
+endfunction
+" if some argument is given, this command calls built-in command :source with
+" given arguments; otherwise calls function <SID>SourcePart() which sources
+" visually selected lines of the buffer.
+command! -nargs=? -bar -range Source if empty("<args>") | call <SID>SourcePart(<line1>, <line2>) | else | exec "so <args>" | endif
+map <F12> :Source<CR>
 
 if has("win32")
   nmap 'x :update \| !del %
@@ -187,6 +207,8 @@ nnoremap 's :vert botright new
 nnoremap 'S :bel new
 nmap 't :tabnew
 nmap 'T :tabc
+nmap [t <Plug>unimpairedTPrevious:diffupdate<CR>
+nmap ]t <Plug>unimpairedTNext:diffupdate<CR>
 " nnoremap [t :tabprev
 " nnoremap ]t :tabnext
 " nnoremap [T :tabfirst
@@ -254,16 +276,29 @@ nmap  a
 inoremap  </
 
 " RainbowParen config
-au VimEnter * RainbowParenthesesActivate
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
+" au VimEnter * RainbowParenthesesActivate
+" au Syntax * RainbowParenthesesLoadRound
+" au Syntax * RainbowParenthesesLoadSquare
+" au Syntax * RainbowParenthesesLoadBraces
 let g:rbpt_colorpairs = [
-      \ [118, 118],
-      \ ['yellow', 'yellow'],
-      \ ['cyan', 'cyan'],
-      \ ['red', 'firebrick1'],
-      \ ]
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+let g:rbpt_max = 16
 
 " autoformat
 let g:autoformat_autoindent = 0
@@ -425,8 +460,27 @@ autocmd BufWrite *.py :call DeleteTrailingWS()
 
 autocmd BufRead *.graphqls set ts=2 sw=2
 
-" inoremap qp m`gwap``a
-" inoremap qs m`gwas``a
+function! DiffGit(count)
+  exe "diffoff!"
+  exe "diffthis"
+  exe "wincmd L"
+  exe "normal 's"
+  exe "silent r!git sh ". bufname("#") ." ". a:count
+  exe "0d"
+  exe "diffthis"
+  exe "set nomodified readonly"
+  exe "wincmd h"
+  exe "wincmd L"
+endfunc
+nmap 'dg :<C-U>call DiffGit(v:count)<CR>
+
+function! RangeTest(count)
+  exe "echo ". a:count
+endfunc
+nmap '` :<C-U>call RangeTest(v:count)<CR>
+
+inoremap qp <C-O>gwap
+inoremap qs <C-O>gwas
 
 " Fireplace
 nnoremap cpe :%Eval
@@ -447,84 +501,12 @@ let g:SuperTabMappingBackward = '<tab>'
 
 com! Clj set ft=clojure
 
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" snoe
-
-" COC
-" let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
-" let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
-
-" Remap keys for gotos
-nmap <silent> gd <Plug>(coc-definition)
-nmap <localleader>u <Plug>(coc-references)
-nmap <localleader>rn <Plug>(coc-rename)
-command! -nargs=0 Format :call CocAction('format')
-
-let g:coc_enable_locationlist = 0
-autocmd User CocLocationsChange CocList --normal location
-
-inoremap <silent><expr> <c-space> coc#refresh()
-nmap <silent> [l <Plug>(coc-diagnostic-prev)
-nmap <silent> ]l <Plug>(coc-diagnostic-next)
-nmap <silent> [k :CocPrev<cr>
-nmap <silent> ]k :CocNext<cr>
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if &filetype == 'vim'
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
+function! SpaceOut(str)
+  return substitute(a:str, '.', ' ', 'g')
 endfunction
+call toop#mapFunction('SpaceOut', 'c<space>')
+nmap c<space><space> c<space>aW
 
-function! Expand(exp) abort
-    let l:result = expand(a:exp)
-    return l:result ==# '' ? '' : "file://" . l:result
-endfunction
-
-" Highlight symbol under cursor on CursorHold
-autocmd CursorHold * silent call CocActionAsync('highlight')
-vmap <localleader>f <Plug>(coc-format-selected)
-nmap <localleader>f <Plug>(coc-format-selected)
-
-nnoremap <silent> crcc :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'cycle-coll', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
-nnoremap <silent> crth :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'thread-first', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
-nnoremap <silent> crtt :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'thread-last', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
-nnoremap <silent> crtf :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'thread-first-all', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
-nnoremap <silent> crtl :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'thread-last-all', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
-nnoremap <silent> cruw :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'unwind-thread', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
-nnoremap <silent> crua :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'unwind-all', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
-nnoremap <silent> crml :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'move-to-let', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1, input('Binding name: ')]})<CR>
-nnoremap <silent> cril :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'introduce-let', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1, input('Binding name: ')]})<CR>
-nnoremap <silent> crel :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'expand-let', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
-nnoremap <silent> cram :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'add-missing-libspec', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
-nnoremap <silent> crcn :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'clean-ns', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1]})<CR>
-nnoremap <silent> cref :call CocRequest('clojure-lsp', 'workspace/executeCommand', {'command': 'extract-function', 'arguments': [Expand('%:p'), line('.') - 1, col('.') - 1, input('Function name: ')]})<CR>
-
-" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
-vmap <localleader>a  <Plug>(coc-codeaction-selected)
-nmap <localleader>a  <Plug>(coc-codeaction-selected)
-
-" Remap for do codeAction of current line
-nmap <localleader>ac  <Plug>(coc-codeaction)
-" Fix autofix problem of current line
-nmap <localleader>qf  <Plug>(coc-fix-current)
-
-autocmd BufReadCmd,FileReadCmd,SourceCmd jar:file://* call s:LoadClojureContent(expand("<amatch>"))
- function! s:LoadClojureContent(uri)
-  setfiletype clojure
-  let content = CocRequest('clojure-lsp', 'clojure/dependencyContents', {'uri': a:uri})
-  call setline(1, split(content, "\n"))
-  setl nomodified
-  setl readonly
-endfunction
-
-highlight Normal guibg=#101010 guifg=white
-highlight CursorColumn guibg=#202020
-highlight Keyword guifg=#FFAB52
-highlight CursorLine guibg=#202020
-
-augroup END
-" vi:set ft=vim ts=4 sw=4 expandtab:
+" --------------------------------------------------------------------
+" END
+" --------------------------------------------------------------------

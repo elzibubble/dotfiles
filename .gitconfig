@@ -19,8 +19,8 @@
   unstage = reset HEAD --
   msg = log -1 --stat
   ol = log -6 --pretty=oneline
-  ls = "!git --no-pager diff --name-only \"$(git range "$@")\" | ag -v generated #"
-  lss = "!git status -s -- "$@" | sed 's/^...//; s/.* -> //' | ag -v generated #"
+  ls = "!for X in $(git --no-pager diff --name-only \"$(git range "$@")\" | ag -v generated); do realpath --relative-to=\"${GIT_PREFIX:-.}\" \"$X\"; done #"
+  lss = "!cd \"$GIT_PREFIX\" && git status -s -- "$@" | sed 's/^...//; s/.* -> //' | ag -v generated #"
   lsp = "!git ls | percol"
   lssp = "!git lss | percol"
   asp = "!git add $(git lss | percol)"
@@ -33,6 +33,7 @@
   mt = mergetool
   cir = commit --amend --no-edit
   cia = commit --amend
+  ciq = "!git ci -am \"$(git ref | sed 's/-/ /g; s/^\\(.\\)/\\u\\1/')\""
   pr = pull --rebase
   # `git pr` on the `git main` branch
   pm = "!_CBR=$(git ref); if [ \"$_CBR\" != \"$(git main)\" ]; then git com; git pr; git co $_CBR; else git pr; fi"
@@ -46,6 +47,7 @@
   unamend = reset --soft HEAD@{1}
   hard = reset --hard
   soft = reset --soft
+  sh = "!git show \"$(git range --simple \"$2\"):${GIT_PREFIX}$1\" #"
 
   isclean = "!if [ $(git status -s | wc -l) -eq '0' ]; then return 0; else return 1; fi"
   ifclean = "!if [ $(git status -s | wc -l) -eq '0' ]; then git "$@"; else echo UNCLEAN; fi #"
@@ -61,7 +63,7 @@
   cop = "!git co $(git brp)"
   # These don't cope with "both added" or "both removed" :|
   changed = "!git status -s | egrep \"^.M|^M.\" | awk \"{print \\$2}"
-  untracked = "!git status -s | egrep \"^.U|^U.|\\?\\?\" | awk \"{print \\$2}\""
+  untracked = "!cd \"$GIT_PREFIX\" && git status -s | egrep \"^.U|^U.|\\?\\?\" | awk \"{print \\$2}\""
   adduntracked = "!git add $(git untracked)"
 
   # Interactive rebase N commits, default 1
@@ -81,9 +83,13 @@
   delbr = "!_CBR=$(git ref); git rmrbr; git com; git br -D \"$_CBR\""
 
   mkpr = "!hub pull-request"
-  mkpreng = "!git mkpr -r JamesLaverack,thewonderbull,mt3593,GreshamDanielStephens"
-  mkprall = "!git mkpr -r JamesLaverack,thewonderbull,mt3593,leesaxbygresham,wkerswell-gresham,pauladagostino,sflower0"
+  spr = "!git shove && git mkpr"
+  cspr = "!git ciq && git spr"
+  # mkpreng = "!git mkpr -r JamesLaverack,thewonderbull,mt3593,GreshamDanielStephens"
+  # mkprall = "!git mkpr -r JamesLaverack,thewonderbull,mt3593,leesaxbygresham,wkerswell-gresham,sflower0"
   getpr = "!hub pr checkout"
+
+  cljfmt = "!cd \"$GIT_PREFIX\" && lein cljfmt fix && git ci -am cljfmt && git push"
 [diff]
   tool = nvim -d
 [merge]

@@ -159,12 +159,18 @@ alias agc='ag --clojure'
 function hi_ip() { egrep "[0-9]+\.[0-9]+|" --color=always $@ }
 
 function vim() { nvim "$@" }
-function vc() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git ls "$@") ) }
-function vcp() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git ls "$@" | percol) ) }
-function vs() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git lss "$@") ) }
-function vsp() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git lss "$@" | percol) ) }
-function vu() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git untracked "$@") ) }
-function vup() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git untracked "$@" | percol) ) }
+# function vc() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git ls "$@") ) }
+# function vcp() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git ls "$@" | percol) ) }
+# function vs() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git lss "$@") ) }
+# function vsp() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git lss "$@" | percol) ) }
+# function vu() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git untracked "$@") ) }
+# function vup() { ( cd "$(git rev-parse --show-toplevel)"; vim $(git untracked "$@" | percol) ) }
+function vc() { vim $(git ls "$@") }
+function vcp() { vim $(git ls "$@" | percol) }
+function vs() { vim $(git lss "$@") }
+function vsp() { vim $(git lss "$@" | percol) }
+function vu() { vim $(git untracked "$@") }
+function vup() { vim $(git untracked "$@" | percol) }
 function pv() { vim $($@ | percol) }
 function pon() { . proxy-on && "$@" }
 function poff() { . proxy-off && "$@" }
@@ -251,6 +257,10 @@ compdef _w_cd w
 
 function title() {
   printf "\e]2;$*\a"
+}
+
+function dush() {
+  sudo du -h --max-depth=1 | sort -h
 }
 
 # vim: ts=2 sw=2 ft=zsh :

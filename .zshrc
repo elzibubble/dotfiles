@@ -15,6 +15,16 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+path[1,0]=(
+  ~/.dotfiles/bin
+  ~/localbin
+  ~/bin
+  ~/Dropbox/bin
+  ~/go/bin
+  ~/.yarn/bin
+  ~/node_modules/node-cljfmt/bin
+)
+
 # Gresham
 unsetopt beep
 export DOTBASE=$HOME
@@ -67,16 +77,6 @@ bindkey '^X^X' edit-command-line
 
 stty -ixon
 unset KSH_ARRAYS
-
-path[1,0]=(
-  ~/.dotfiles/bin
-  ~/localbin
-  ~/bin
-  ~/Dropbox/bin
-  ~/go/bin
-  ~/.yarn/bin
-  ~/node_modules/node-cljfmt/bin
-)
 
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

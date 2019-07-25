@@ -1,0 +1,17 @@
+{
+  "suggest.snippetIndicator": "🍦",
+  "languageserver": {
+    "clojure-lsp": {
+      "xcommand": "bash",
+      "xargs": ["-c", "cd /Users/case/dev/lsp/ && lein run"],
+      "command": "/home/alee/localbin/clojure-lsp",
+      "args": [],
+      "filetypes": ["clojure"],
+      "rootPatterns": ["project.clj"],
+      "additionalSchemes": ["jar", "zipfile"],
+      "trace.server": "verbose",
+      "initializationOptions": {
+      }
+    }
+  }
+}

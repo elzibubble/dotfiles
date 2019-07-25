@@ -9,6 +9,7 @@ endif
 call plug#begin('~/.vim/bundle')
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'Olical/conjure', { 'tag': 'v0.22.0', 'do': 'bin/compile'  }
 Plug 'PeterRincker/vim-argumentative'
 Plug 'avakhov/vim-yaml'
 Plug 'bps/vim-textobj-python'
@@ -36,7 +37,7 @@ Plug 'kien/ctrlp.vim'
 Plug 'mattboehm/vim-accordion'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'nanotech/jellybeans.vim'
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'scrooloose/nerdtree'
 " Plug 'scrooloose/syntastic'
@@ -207,12 +208,12 @@ nnoremap 's :vert botright new
 nnoremap 'S :bel new
 nmap 't :tabnew
 nmap 'T :tabc
-nmap [t <Plug>unimpairedTPrevious:diffupdate<CR>
-nmap ]t <Plug>unimpairedTNext:diffupdate<CR>
-" nnoremap [t :tabprev
-" nnoremap ]t :tabnext
-" nnoremap [T :tabfirst
-" nnoremap ]T :tablast
+" nmap [t <Plug>unimpairedTPrevious:diffupdate<CR>
+" nmap ]t <Plug>unimpairedTNext:diffupdate<CR>
+nnoremap [t :tabprev\|diffupdate<CR>
+nnoremap ]t :tabnext\|diffupdate<CR>
+nnoremap [T :tabfirst\|diffupdate<CR>
+nnoremap ]T :tablast\|diffupdate<CR>
 nmap <F8> '':prev
 nmap <F9> '':next
 nmap <S-F8> '':first
@@ -304,7 +305,7 @@ let g:rbpt_max = 16
 let g:autoformat_autoindent = 0
 let g:formatdef_cljfmt = '"cljfmt"'
 let g:formatters_clojure = ['cljfmt']
-au BufWrite * :Autoformat
+" au BufWrite * :Autoformat
 
 "syntastic
 "com! SyntasticPythonLoose let g:syntastic_python_checkers=['python']
@@ -485,6 +486,10 @@ inoremap qs <C-O>gwas
 " Fireplace
 nnoremap cpe :%Eval
 
+" Conjure
+let g:conjure_log_auto_open = ["eval", "ret", "ret-multiline", "out", "err", "tap", "doc", "load-file", "test"]
+let g:conjure_log_auto_open = ["ret-multiline", "out", "err", "tap", "doc", "test"]
+
 " Nrrw
 let g:nrrw_topbot_leftright = 'botright'
 
@@ -507,6 +512,5 @@ endfunction
 call toop#mapFunction('SpaceOut', 'c<space>')
 nmap c<space><space> c<space>aW
 
-" --------------------------------------------------------------------
-" END
-" --------------------------------------------------------------------
+augroup END
+" vi:set ft=vim ts=4 sw=4 expandtab:

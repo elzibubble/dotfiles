@@ -26,8 +26,8 @@
                          (sequence cat
                                    ['(do)
                                     (map (fn [[var value]] `(def ~var ~value)) bings)
-                                    [(mapv (fn [[var _]] (str var)) bings)]])))]}}
-{:auth {:repository-auth {#"snapshots" {:username "ccm-deployment"
+                                    [(mapv (fn [[var _]] (str var)) bings)]])))]}
+ :auth {:repository-auth {#"snapshots" {:username "ccm-deployment"
                                         :password "aNz259Bg5APBrgW7"}
                           #"releases" {:username "ccm-deployment"
                                        :password "aNz259Bg5APBrgW7"}

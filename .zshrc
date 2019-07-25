@@ -18,6 +18,7 @@ compinit
 path[1,0]=(
   ~/.dotfiles/bin
   ~/localbin
+  ~/localbin/node/bin
   ~/bin
   ~/Dropbox/bin
   ~/go/bin

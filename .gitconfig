@@ -10,6 +10,7 @@
 
   dev = "!git clone git@github.com:$1 #"
   gdev = "!git clone git@github.com:gresham-computing/$1 #"
+  myfork = "!git remote set-url origin $(git remote -v | awk 'NR==1 {print $2}' | sed 's!:\\w\\+/!:lxsli/!')"
   co = checkout
   # as-remote = "!if [[ \"${1%%/*}\" == \"remotes\" ]]; then echo \"$1\"; else echo \"remotes/origin/$1\"; fi"
   cot = checkout -t
@@ -81,6 +82,7 @@
   shove = "!git push --set-upstream origin `git ref`"
   rmrbr = "!git push ${1:-origin} --delete $(git ref) #"
   delbr = "!_CBR=$(git ref); git rmrbr; git com; git br -D \"$_CBR\""
+  signoff-rebase = "!EDITOR='sed -i -re s/^pick/e/' sh -c 'git rebase -i $1 && while test -f .git/rebase-merge/interactive; do git cir --signoff && git rc; done' -"
 
   mkpr = "!hub pull-request"
   spr = "!git shove && git mkpr"

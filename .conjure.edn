@@ -1,2 +1,3 @@
 {:conns
- {:jvm {:port 5885}}}
+ {:lein {:port 58885}
+  :jvm {:port 5885}}}

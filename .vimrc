@@ -9,7 +9,7 @@ endif
 call plug#begin('~/.vim/bundle')
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'FelikZ/ctrlp-py-matcher'
-Plug 'Olical/conjure', { 'tag': 'v0.22.0', 'do': 'bin/compile'  }
+" Plug 'Olical/conjure', { 'tag': 'v0.22.0', 'do': 'bin/compile'  }
 Plug 'PeterRincker/vim-argumentative'
 Plug 'avakhov/vim-yaml'
 Plug 'bps/vim-textobj-python'
@@ -27,7 +27,7 @@ Plug 'godlygeek/tabular'
 Plug 'guns/vim-sexp'
 Plug 'jceb/vim-textobj-uri'
 Plug 'jeanCarloMachado/vim-toop'
-Plug 'jreybert/vimagit'
+" Plug 'jreybert/vimagit'
 " Plug 'junegunn/fzf', {'do': './install --all'}
 Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-user'
@@ -79,6 +79,7 @@ set lazyredraw
 set wildmenu
 exec "set undodir=". g:dotbase ."/.vim/undo"
 set undofile
+let loaded_matchparen = 1
 colorscheme jellybeans
 " set termguicolors
 let g:python_host_prog = $HOME .'/pyve2.7/bin/python2'
@@ -305,7 +306,7 @@ let g:rbpt_max = 16
 let g:autoformat_autoindent = 0
 let g:formatdef_cljfmt = '"cljfmt"'
 let g:formatters_clojure = ['cljfmt']
-" au BufWrite * :Autoformat
+au BufWrite * :Autoformat
 
 "syntastic
 "com! SyntasticPythonLoose let g:syntastic_python_checkers=['python']
@@ -489,6 +490,9 @@ nnoremap cpe :%Eval
 " Conjure
 let g:conjure_log_auto_open = ["eval", "ret", "ret-multiline", "out", "err", "tap", "doc", "load-file", "test"]
 let g:conjure_log_auto_open = ["ret-multiline", "out", "err", "tap", "doc", "test"]
+let g:conjure_log_direction = "horizontal"
+let g:conjure_log_size_small = 15
+let g:conjure_log_size_large = 25
 
 " Nrrw
 let g:nrrw_topbot_leftright = 'botright'
@@ -512,5 +516,16 @@ endfunction
 call toop#mapFunction('SpaceOut', 'c<space>')
 nmap c<space><space> c<space>aW
 
+function! ProfileStart()
+  profile start profile.log
+  profile func *
+  profile file *
+endfunc
+function! ProfileStop()
+  profile stop
+endfunc
+com! ProfileStart call ProfileStart()
+com! ProfileStop call ProfileStop()
+
 augroup END
-" vi:set ft=vim ts=4 sw=4 expandtab:
+" vi:set ft=vim ts=2 sw=2 expandtab:

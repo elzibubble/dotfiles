@@ -9,5 +9,5 @@
 .*.sw?
 
 target/
-.lein/self-installs
-.lein/repl-history
+# .lein/profiles.clj has passwords in it, you idiot
+.lein

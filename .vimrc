@@ -1,9 +1,10 @@
-let g:dotbase="~"
+scriptencoding utf-8
+let g:dotbase='~'
 
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  autocmd lxs VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
 call plug#begin('~/.vim/bundle')
@@ -65,7 +66,7 @@ Plug 'lxsli/ftplugins'
 call plug#end()
 
 syn on
-set nocompatible bs=2
+set bs=2
 set ts=2 sw=2 et ai nojs
 set so=15
 set hls is
@@ -77,7 +78,7 @@ set guifont=
 "set mouse=a
 set lazyredraw
 set wildmenu
-exec "set undodir=". g:dotbase ."/.vim/undo"
+exec 'set undodir='. g:dotbase .'/.vim/undo'
 set undofile
 let loaded_matchparen = 1
 colorscheme jellybeans
@@ -86,7 +87,7 @@ let g:python_host_prog = $HOME .'/pyve2.7/bin/python2'
 let g:python3_host_prog = $HOME .'/pyve/bin/python3'
 set grepprg=ag
 
-if has("gui_running")
+if has('gui_running')
   set lines=999
   set columns=84
 endif
@@ -126,20 +127,20 @@ nmap '@ :e!%
 nmap '# :e#
 nmap '~ :e!#
 nmap '. :cd %:h
-exec "nmap 'v :vert botright new ~/.vimrc"
-nmap 'V :exec ":vert botright new $VIMB/ftplugins/after/ftplugin/". &ft .".vim"<CR>
-" if has("win32")
+nmap 'v :vert botright new ~/.vimrc<CR>
+nmap 'V :exec ':vert botright new $VIMB/ftplugins/after/ftplugin/'. &ft .'.vim'<CR>
+" if has('win32')
 "     nmap 'V :e ~/_vimrc
 " else
 "     nmap 'V :e ~/.vimrc
 " endif
-exec "nmap 'z :e ~/.zshrc"
+nmap 'z :e ~/.zshrc<CR>
 nmap Z @@
 nmap Q @q
 nmap # .n
 nmap 'l :llist:ll
 " Exec current line as an Ex command
-nnoremap <expr> <C-n> ":let @/=escape(@".v:register.", '\\/.*$^~[]')<cr>:exec 'norm /'.@/<cr>n"
+nnoremap <expr> <C-n> ':let @/=escape(@'.v:register.', '\\/.*$^~[]')<cr>:exec 'norm /'.@/<cr>n'
 com! Qa qa
 nmap 'm :!make
 nnoremap gx :normal mxviugx<Esc>`x
@@ -157,7 +158,7 @@ nmap <M-x> V"yp
 
 function! <SID>SourcePart(line1, line2)
    let tmp = @z
-   silent exec a:line1.",".a:line2."yank z"
+   silent exec a:line1.','.a:line2.'yank z'
    let @z = substitute(@z, '\n\s*\\', '', 'g')
    @z
    let @z = tmp
@@ -165,10 +166,10 @@ endfunction
 " if some argument is given, this command calls built-in command :source with
 " given arguments; otherwise calls function <SID>SourcePart() which sources
 " visually selected lines of the buffer.
-command! -nargs=? -bar -range Source if empty("<args>") | call <SID>SourcePart(<line1>, <line2>) | else | exec "so <args>" | endif
+command! -nargs=? -bar -range Source if empty('<args>') | call <SID>SourcePart(<line1>, <line2>) | else | exec 'so <args>' | endif
 map <F12> :Source<CR>
 
-if has("win32")
+if has('win32')
   nmap 'x :update \| !del %
   nmap 'Y :%y *
   vmap Y "*y
@@ -185,7 +186,7 @@ nmap 'dt :diffthis
 nmap 'do :diffoff
 nmap 'dw :call ToggleIWhite()
 function! ToggleIWhite() abort
-    if stridx(&diffopt, "iwhite") == -1
+    if stridx(&diffopt, 'iwhite') == -1
         set diffopt+=iwhite
     else
         set diffopt-=iwhite
@@ -271,7 +272,7 @@ hi Search gui=underline guibg=#300024 guifg=#FFFF55
 
 "--- Plugin config
 
-let g:mapleader="'"
+let g:mapleader=''
 
 setlocal omnifunc=htmlcomplete#CompleteTags
 nmap  a
@@ -322,7 +323,7 @@ let g:session_verbose_messages = 0
 nmap '<space> gcc
 xmap '<space> gc
 
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTreeType') && b:NERDTreeType == 'primary') | q | endif
 nmap '/ :NERDTreeToggle<CR>
 let g:NERDTreeQuitOnOpen = 1
 
@@ -330,7 +331,7 @@ au BufEnter Jenkinsfile set ft=groovy
 
 " let g:ConqueTerm_CWInsert = 1
 " let g:ConqueTerm_SessionSupport = 1
-" com! ConqueTermReload exec "ConqueTerm ". strpart(bufname(""), 0, strlen(bufname("")) - 4)
+" com! ConqueTermReload exec 'ConqueTerm '. strpart(bufname(''), 0, strlen(bufname('')) - 4)
 
 " ctags
 set tags=~/.tags
@@ -343,7 +344,7 @@ set wildignore+=*.so,*.exe,*.swp,*.zip,*.pyc
 set wildignore+=*/tmp/*    " MacOSX/Linux
 set wildignore+=*\\tmp\\*  " Windows
 let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*' " MacOSX/Linux
-"let g:ctrlp_mruf_exclude = '^C:\\dev\\tmp\\.*' " Windows
+" let g:ctrlp_mruf_exclude = '^C:\\dev\\tmp\\.*' " Windows
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
 let g:ctrlp_use_caching = 0
 
@@ -366,7 +367,7 @@ let g:splitjoin_join_mapping="'k"
 
 " jedi-vim
 "let g:jedi#use_tabs_not_buffers = 0
-"let g:jedi#use_splits_not_buffers = "right"
+"let g:jedi#use_splits_not_buffers = 'right'
 let g:jedi#popup_on_dot = 0
 "let g:jedi#completions_enabled = 0
 
@@ -421,7 +422,7 @@ function! s:Translate(repl_arg) range abort
   let sep = a:repl_arg[0]
   let fields = split(a:repl_arg, sep)
   let cmd = a:firstline . ',' . a:lastline
-      \. 'call setline(".", tr(getline("."), '.string(fields[0]).','.string(fields[1]).'))'
+      \. 'call setline('.', tr(getline('.'), '.string(fields[0]).','.string(fields[1]).'))'
   exe cmd
 endfunction
 
@@ -444,7 +445,7 @@ let s:rst_accepted_dir_type =
 let s:rst_accepted_text_role = '\(ref\|command\|file\|py:[a-z]*\|meth\|class\|func\)'
 let s:rst_def_substitution = '\(version\|today\)'
 let g:syntastic_rst_rst2pseudoxml_quiet_messages = {
-            \ "regex":
+            \ 'regex':
             \ '\(' .
             \ 'Unknown directive type "' . s:rst_accepted_dir_type . '"\|' .
             \ 'Unknown interpreted text role "' . s:rst_accepted_text_role . '"\|' .
@@ -452,32 +453,32 @@ let g:syntastic_rst_rst2pseudoxml_quiet_messages = {
             \ '\)',
             \ }
 
-function! DeleteTrailingWS()
-    exe "normal mz"
-    %s/\s\+$//ge
-    exe "normal `z"
-endfunc
-com! DeleteTrailingWS call DeleteTrailingWS()
-autocmd BufWrite *.py :call DeleteTrailingWS()
+" function! DeleteTrailingWS()
+"     exe 'normal mz'
+"     %s/\s\+$//ge
+"     exe 'normal `z'
+" endfunc
+" com! DeleteTrailingWS call DeleteTrailingWS()
+" autocmd BufWrite *.py :call DeleteTrailingWS()
 
 autocmd BufRead *.graphqls set ts=2 sw=2
 
 function! DiffGit(count)
-  exe "diffoff!"
-  exe "diffthis"
-  exe "wincmd L"
-  exe "normal 's"
-  exe "silent r!git sh ". bufname("#") ." ". a:count
-  exe "0d"
-  exe "diffthis"
-  exe "set nomodified readonly"
-  exe "wincmd h"
-  exe "wincmd L"
+  exe 'diffoff!'
+  exe 'diffthis'
+  exe 'wincmd L'
+  exe 'normal <leader>s'
+  exe 'silent r!git sh '. bufname('#') .' '. a:count
+  exe '0d'
+  exe 'diffthis'
+  exe 'set nomodified readonly'
+  exe 'wincmd h'
+  exe 'wincmd L'
 endfunc
 nmap 'dg :<C-U>call DiffGit(v:count)<CR>
 
 function! RangeTest(count)
-  exe "echo ". a:count
+  exe 'echo '. a:count
 endfunc
 nmap '` :<C-U>call RangeTest(v:count)<CR>
 
@@ -499,8 +500,8 @@ let g:nrrw_topbot_leftright = 'botright'
 
 " ADoc
 function! NRAdoc()
-    exe "normal ?^----$k0f,lyejjVNk:NR"
-    exe "set ft=". @"
+    exe 'normal ?^----$k0f,lyejjVNk:NR'
+    exe 'set ft='. @"
 endfunc
 com! NRAdoc call NRAdoc()
 
@@ -527,5 +528,12 @@ endfunc
 com! ProfileStart call ProfileStart()
 com! ProfileStop call ProfileStop()
 
+" base64
+vnoremap <silent> <leader>btoa :<c-u>call base64#v_atob()<cr>
+vnoremap <silent> <leader>atob :<c-u>call base64#v_btoa()<cr>
+
+" --------------------------------------------------------------------
+" END
+" --------------------------------------------------------------------
 augroup END
 " vi:set ft=vim ts=2 sw=2 expandtab:

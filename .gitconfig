@@ -92,6 +92,7 @@
   getpr = "!hub pr checkout"
 
   cljfmt = "!cd \"$GIT_PREFIX\" && lein cljfmt fix && git ci -am cljfmt && git push"
+  vale = "!git ci -am vale && git push"
 [diff]
   tool = nvim -d
 [merge]

@@ -253,8 +253,10 @@ function dex() {
 # export LEIN_FAST_TRAMPOLINE=y
 # export LEIN_JAVA_CMD="$HOME/bin/drip"
 
-function _w_cd { pushd ~/w >/dev/null; _cd "$@"; popd >/dev/null}
-compdef _w_cd w
+function _w_comp { pushd ~/w >/dev/null; _cd "$@"; popd >/dev/null }
+compdef _w_comp w
+function _bin_comp { pushd $(_bin) >/dev/null; _path_files "$@"; popd >/dev/null }
+compdef _bin_comp bin
 
 function title() {
   printf "\e]2;$*\a"

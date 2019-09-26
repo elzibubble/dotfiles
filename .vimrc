@@ -28,6 +28,7 @@ Plug 'godlygeek/tabular'
 Plug 'guns/vim-sexp'
 Plug 'jceb/vim-textobj-uri'
 Plug 'jeanCarloMachado/vim-toop'
+Plug 'jparise/vim-graphql'
 " Plug 'jreybert/vimagit'
 " Plug 'junegunn/fzf', {'do': './install --all'}
 Plug 'kana/vim-textobj-indent'
@@ -80,7 +81,7 @@ set lazyredraw
 set wildmenu
 exec 'set undodir='. g:dotbase .'/.vim/undo'
 set undofile
-let loaded_matchparen = 1
+" let loaded_matchparen = 1
 colorscheme jellybeans
 " set termguicolors
 let g:python_host_prog = $HOME .'/pyve2.7/bin/python2'
@@ -139,8 +140,7 @@ nmap Z @@
 nmap Q @q
 nmap # .n
 nmap 'l :llist:ll
-" Exec current line as an Ex command
-nnoremap <expr> <C-n> ':let @/=escape(@'.v:register.', '\\/.*$^~[]')<cr>:exec 'norm /'.@/<cr>n'
+nnoremap <expr> <C-n> ":let @/=escape(@". v:register .", '\\/.*$^~[]')<cr>:exec 'norm /'.@/<cr>n"
 com! Qa qa
 nmap 'm :!make
 nnoremap gx :normal mxviugx<Esc>`x
@@ -307,7 +307,6 @@ let g:rbpt_max = 16
 let g:autoformat_autoindent = 0
 let g:formatdef_cljfmt = '"cljfmt"'
 let g:formatters_clojure = ['cljfmt']
-au BufWrite * :Autoformat
 
 "syntastic
 "com! SyntasticPythonLoose let g:syntastic_python_checkers=['python']

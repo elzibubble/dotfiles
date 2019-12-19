@@ -20,12 +20,14 @@ Plug 'chrisbra/SudoEdit.vim'
 Plug 'christianrondeau/vim-base64'
 " Plug 'christoomey/vim-tmux-navigator'
 " Plug 'clojure-vim/acid.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'clojure-vim/vim-jack-in'
 Plug 'elzr/vim-json'
 Plug 'eraserhd/parinfer-rust', {'do': 'cargo build --release'}
 Plug 'ervandew/supertab'
 " Plug 'gastonsimone/vim-dokumentary'
 Plug 'godlygeek/tabular'
 Plug 'guns/vim-sexp'
+Plug 'habamax/vim-asciidoctor'
 Plug 'jceb/vim-textobj-uri'
 Plug 'jeanCarloMachado/vim-toop'
 Plug 'jparise/vim-graphql'
@@ -36,11 +38,13 @@ Plug 'kana/vim-textobj-user'
 Plug 'kburdett/vim-nuuid'
 Plug 'kien/ctrlp.vim'
 " Plug 'kien/rainbow_parentheses.vim'
+Plug 'kshenoy/vim-signature'
 Plug 'mattboehm/vim-accordion'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'nanotech/jellybeans.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'radenling/vim-dispatch-neovim'
 Plug 'scrooloose/nerdtree'
 " Plug 'scrooloose/syntastic'
 Plug 'sgur/vim-textobj-parameter'
@@ -48,7 +52,7 @@ Plug 'sjl/gundo.vim'
 Plug 'tpope/vim-abolish'
 " Plug 'tpope/vim-classpath'
 Plug 'tpope/vim-commentary'
-" Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fireplace'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-projectionist'
@@ -58,6 +62,7 @@ Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-surround'
 " Plug 'typedclojure/vim-typedclojure'
 " Plug 'venantius/vim-cljfmt'
+Plug 'vim-scripts/Tabmerge'
 Plug 'xenomachina/public', {'rtp': 'vim/'}
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
@@ -82,11 +87,11 @@ set wildmenu
 exec 'set undodir='. g:dotbase .'/.vim/undo'
 set undofile
 " let loaded_matchparen = 1
-colorscheme jellybeans
 " set termguicolors
 let g:python_host_prog = $HOME .'/pyve2.7/bin/python2'
 let g:python3_host_prog = $HOME .'/pyve/bin/python3'
 set grepprg=ag
+set virtualedit=block
 
 if has('gui_running')
   set lines=999
@@ -117,32 +122,33 @@ vnoremap <BS> %
 map M 10j
 map L 10k
 nmap '' :call Save()<CR>
-nmap 'w :x
-nmap 'q :q
-nmap 'Q :q!
-nmap <C-Q> :qa
-nmap 'e :ls:e<space>
-" nmap 'E :e "
+nmap 'w :x<CR>
+nmap 'q :q<CR>
+nmap 'Q :q!<CR>
+nmap <C-Q> :qa<CR>
+nmap 'e :ls<CR>:e<space>
+" nmap 'e :CtrlP<CR>
+" nmap 'E :e "<CR>
 nmap 'E :e %:h/
-nmap '@ :e!%
-nmap '# :e#
-nmap '~ :e!#
-nmap '. :cd %:h
+nmap '@ :e!%<CR>
+nmap '# :e#<CR>
+nmap '~ :e!#<CR>
+nmap '. :cd %:h<CR>
 nmap 'v :vert botright new ~/.vimrc<CR>
 nmap 'V :exec ':vert botright new $VIMB/ftplugins/after/ftplugin/'. &ft .'.vim'<CR>
 " if has('win32')
-"     nmap 'V :e ~/_vimrc
+"     nmap 'V :e ~/_vimrc<CR>
 " else
-"     nmap 'V :e ~/.vimrc
+"     nmap 'V :e ~/.vimrc<CR>
 " endif
-nmap 'z :e ~/.zshrc<CR>
+nmap 'z :vert botright new ~/.zshrc<CR>
 nmap Z @@
 nmap Q @q
 nmap # .n
-nmap 'l :llist:ll
+nmap 'l :llist<CR>:ll
 nnoremap <expr> <C-n> ":let @/=escape(@". v:register .", '\\/.*$^~[]')<cr>:exec 'norm /'.@/<cr>n"
 com! Qa qa
-nmap 'm :!make
+nmap 'm :!make<CR>
 nnoremap gx :normal mxviugx<Esc>`x
 nmap <TAB> >>
 vmap <TAB> >
@@ -155,6 +161,7 @@ map <M-S-y> "yY
 map <M-p> "yp
 map <M-S-p> "yP
 nmap <M-x> V"yp
+tnoremap <esc><esc> <c-\><c-n>
 
 function! <SID>SourcePart(line1, line2)
    let tmp = @z
@@ -170,21 +177,21 @@ command! -nargs=? -bar -range Source if empty('<args>') | call <SID>SourcePart(<
 map <F12> :Source<CR>
 
 if has('win32')
-  nmap 'x :update \| !del %
-  nmap 'Y :%y *
+  nmap 'x :update \| !del %<CR>
+  nmap 'Y :%y *<CR>
   vmap Y "*y
-  nmap 'P :%d"*]pggdd
+  nmap 'P :%d<CR>"*]pggdd
 else
-  nmap 'x :update \| !rm %
-  nmap 'Y :%y +
+  nmap 'x :update \| !rm %<CR>
+  nmap 'Y :%y +<CR>
   vmap Y "+y
-  nmap 'P :%d"+]pggdd
+  nmap 'P :%d<CR>"+]pggdd
 endif
-"nmap 'D :%d \| w!
-nmap 'du :diffupdate
-nmap 'dt :diffthis
-nmap 'do :diffoff
-nmap 'dw :call ToggleIWhite()
+"nmap 'D :%d \| w!<CR>
+nmap 'du :diffupdate<CR>
+nmap 'dt :diffthis<CR>
+nmap 'do :diffoff<CR>
+nmap 'dw :call ToggleIWhite()<CR>
 function! ToggleIWhite() abort
     if stridx(&diffopt, 'iwhite') == -1
         set diffopt+=iwhite
@@ -197,33 +204,34 @@ endf
 " replacements
 " nmap yoi :set ignorecase!<CR>
 " nmap yoh :set hls!<CR>
-" nmap [a :prev
-" nmap ]a :next
-" nmap [A :first
-" nmap ]A :last
+" nmap [a :prev<CR>
+" nmap ]a :next<CR>
+" nmap [A :first<CR>
+" nmap ]A :last<CR>
 " nmap [<Space> :<C-U>put!=repeat(nr2char(10), v:count)<CR>
 " nmap ]<Space> :<C-U>put =repeat(nr2char(10), v:count)<CR>
 
 " extensions
-nmap yoH :let @/=""
-nnoremap 's :vert botright new
-nnoremap 'S :bel new
-nmap 't :tabnew
-nmap 'T :tabc
+nmap yoH :let @/=""<CR>
+nnoremap 's :vert botright new<CR>
+nnoremap 'S :bel new<CR>
+nmap 't :tabnew<CR>
+nmap 'T :tabc<CR>
 " nmap [t <Plug>unimpairedTPrevious:diffupdate<CR>
 " nmap ]t <Plug>unimpairedTNext:diffupdate<CR>
 nnoremap [t :tabprev\|diffupdate<CR>
 nnoremap ]t :tabnext\|diffupdate<CR>
 nnoremap [T :tabfirst\|diffupdate<CR>
 nnoremap ]T :tablast\|diffupdate<CR>
-nmap <F8> '':prev
-nmap <F9> '':next
-nmap <S-F8> '':first
-nmap <S-F9> '':last
+nmap <F8> '':prev<CR>
+nmap <F9> '':next<CR>
+nmap <S-F8> '':first<CR>
+nmap <S-F9> '':last<CR>
 nmap [w :wincmd h<CR>
 nmap ]w :wincmd l<CR>
 nmap [W :99wincmd h<CR>
 nmap ]W :99wincmd l<CR>
+nmap <C-w>` :wincmd w \| wincmd _<CR>
 " end unimpaired
 
 function! ToggleClipMode() abort
@@ -237,10 +245,10 @@ function! ToggleClipMode() abort
     endif
 endf
 com! ClipMode call ToggleClipMode()
-nmap yoC :ClipMode
+nmap yoC :ClipMode<CR>
 
-vnoremap <A-k> :m-2gv=gv
-vnoremap <A-j> :m'>+gv=gv
+vnoremap <A-k> :m-2<CR>gv=gv
+vnoremap <A-j> :m'>+<CR>gv=gv
 
 " Escapes for my custom mappings
 noremap \<BS> <BS>
@@ -272,7 +280,7 @@ hi Search gui=underline guibg=#300024 guifg=#FFFF55
 
 "--- Plugin config
 
-let g:mapleader=''
+let g:mapleader="'"
 
 setlocal omnifunc=htmlcomplete#CompleteTags
 nmap  a
@@ -336,8 +344,9 @@ au BufEnter Jenkinsfile set ft=groovy
 set tags=~/.tags
 
 " ctrlp
-nmap '; :CtrlPMixed
-nmap ': :CtrlP
+" nmap '; :CtrlPMixed<CR>
+nmap '; :CtrlPBuffer<CR>
+nmap ': :CtrlPMRU<CR>
 " nmap '; :FZF<CR>
 set wildignore+=*.so,*.exe,*.swp,*.zip,*.pyc
 set wildignore+=*/tmp/*    " MacOSX/Linux
@@ -346,6 +355,7 @@ let g:ctrlp_mruf_exclude = '/tmp/.*\|/temp/.*' " MacOSX/Linux
 " let g:ctrlp_mruf_exclude = '^C:\\dev\\tmp\\.*' " Windows
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
 let g:ctrlp_use_caching = 0
+let g:ctrlp_switch_buffer = 'Et'
 
 "unstack
 nmap ys* :UnstackFromSelection<CR>
@@ -354,8 +364,8 @@ nmap ys+ :UnstackFromClipboard<CR>
 "accordion
 au VimEnter * let g:accordion_size=max([2, &columns/100])
 au VimResized * let g:accordion_size=max([2, &columns/100])
-nmap 'ar :AccordionZoomIn
-nmap 'am :AccordionZoomOut
+nmap 'ar :AccordionZoomIn<CR>
+nmap 'am :AccordionZoomOut<CR>
 
 "gundo
 nnoremap U :GundoToggle<CR>
@@ -375,10 +385,10 @@ let g:ycm_autoclose_preview_window_after_completion=1
 nnoremap <leader>d :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 " vim-better-whitespace
-let g:strip_whitespace_on_save=1
-let g:strip_whitespace_confirm=0
-let g:strip_only_modified_lines=0
-" let g:better_whitespace_filetypes_blacklist=['diff', 'gitcommit', 'unite', 'qf', 'help', 'markdown']
+  let g:strip_whitespace_on_save=1
+  let g:strip_whitespace_confirm=0
+  let g:strip_only_modified_lines=0
+  " let g:better_whitespace_filetypes_blacklist=['diff', 'gitcommit', 'unite', 'qf', 'help', 'markdown']
 
 " projectionist
 nmap 'av :botright AV<CR>
@@ -474,7 +484,7 @@ function! DiffGit(count)
   exe 'wincmd h'
   exe 'wincmd L'
 endfunc
-nmap 'dg :<C-U>call DiffGit(v:count)<CR>
+nmap 'dg :Gvdiffsplit<cr>
 
 function! RangeTest(count)
   exe 'echo '. a:count
@@ -485,7 +495,7 @@ inoremap qp <C-O>gwap
 inoremap qs <C-O>gwas
 
 " Fireplace
-nnoremap cpe :%Eval
+nnoremap cpe :%Eval<CR>
 
 " Conjure
 let g:conjure_log_auto_open = ["eval", "ret", "ret-multiline", "out", "err", "tap", "doc", "load-file", "test"]
@@ -528,11 +538,33 @@ com! ProfileStart call ProfileStart()
 com! ProfileStop call ProfileStop()
 
 " base64
-vnoremap <silent> <leader>btoa :<c-u>call base64#v_atob()<cr>
-vnoremap <silent> <leader>atob :<c-u>call base64#v_btoa()<cr>
+vnoremap <silent> <leader>ba :<c-u>call base64#v_atob()<cr>
+vnoremap <silent> <leader>ab :<c-u>call base64#v_btoa()<cr>
+" map <space><space> vi"'ba<esc>
 
-" --------------------------------------------------------------------
-" END
-" --------------------------------------------------------------------
+" dispatch
+let g:dispatch_no_maps=1
+
+" asciidoctor
+let g:asciidoctor_extensions = ['asciidoctor-diagram']
+let g:asciidoctor_pdf_extensions = ['asciidoctor-diagram']
+" let g:asciidoctor_pdf_themes_path = '~/docs/AsciiDocThemes'
+" let g:asciidoctor_pdf_fonts_path = '~/docs/AsciiDocThemes/fonts'
+let g:asciidoctor_folding = 1
+fun! AsciidoctorMappings()
+	nnoremap <buffer> <leader>oo :AsciidoctorOpenRAW<CR>
+	nnoremap <buffer> <leader>op :AsciidoctorOpenPDF<CR>
+	nnoremap <buffer> <leader>oh :AsciidoctorOpenHTML<CR>
+	nnoremap <buffer> <leader>ox :AsciidoctorOpenDOCX<CR>
+  nnoremap <buffer> <leader>ch :Asciidoctor2HTML<CR>
+	nnoremap <buffer> <leader>cp :Asciidoctor2PDF<CR>
+	nnoremap <buffer> <leader>cx :Asciidoctor2DOCX<CR>
+endfun
+
+augroup asciidoctor
+	au!
+	au BufEnter *.adoc,*.asciidoc call AsciidoctorMappings()
 augroup END
+
+colorscheme jellybeans
 " vi:set ft=vim ts=2 sw=2 expandtab:

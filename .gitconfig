@@ -20,7 +20,7 @@
   unstage = reset HEAD --
   msg = log -1 --stat
   ol = log -6 --pretty=oneline
-  ls = "!for X in $(git --no-pager diff --name-only \"$(git range "$@")\" | ag -v generated); do realpath --relative-to=\"${GIT_PREFIX:-.}\" \"$X\"; done #"
+  ls = "!for X in $(git --no-pager diff --name-only \"$(git range "$@")\" | ag -v generated); do realpath -s --relative-to=\"${GIT_PREFIX:-.}\" \"$X\"; done #"
   lss = "!cd \"$GIT_PREFIX\" && git status -s -- "$@" | sed 's/^...//; s/.* -> //' | ag -v generated #"
   lsp = "!git ls | percol"
   lssp = "!git lss | percol"

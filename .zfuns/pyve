@@ -3,5 +3,4 @@
 S=$HOME/pyve/bin/activate
 if [[ -r $S ]]; then
   source $S
-  source $DOTBASE/.zfuns/z_argcomplete
 fi

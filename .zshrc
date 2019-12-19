@@ -15,6 +15,12 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 
+source ~/.zplug/init.zsh
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+zplug "diazod/git-prune"
+zplug "nnao45/zsh-kubectl-completion"
+zplug load # --verbose
+
 path[1,0]=(
   ~/.dotfiles/bin
   ~/localbin
@@ -24,6 +30,7 @@ path[1,0]=(
   ~/go/bin
   ~/.yarn/bin
   ~/node_modules/node-cljfmt/bin
+  ~/.gem/ruby/2.3.0/bin
 )
 
 # Gresham
@@ -32,14 +39,10 @@ export DOTBASE=$HOME
 export WORKSPACE=$HOME/w
 export DEPLOY=$HOME/deploy
 export CCM_SNAPSHOTS_URL=https://nexus.greshamtech.com/content/repositories/ccm-snapshots/
-case $(kubectl config current-context) in
-  orion) export KUBE_NS=crow ;;
-  minikube) export KUBE_NS=tempest ;;
-esac
-nix_sh="$HOME/.nix-profile/etc/profile.d/nix.sh"
-if [[ -f "$nix_sh" ]]; then
-  . "$nix_sh"
-fi
+# case $(kubectl config current-context) in
+#   orion) export KUBE_NS=crow ;;
+#   minikube) export KUBE_NS=tempest ;;
+# esac
 
 # Git
 export GIT_PS1_SHOWDIRTYSTATE=1
@@ -47,18 +50,29 @@ export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWUNTRACKEDFILES=1
 export GIT_PS1_SHOWUPSTREAM="auto"
 
-export EDITOR=vim
-export VISUAL=vim
-source $DOTBASE/.zfuns/z_colours
-source $DOTBASE/.zfuns/z_greek
+export EDITOR=nvim
+export VISUAL=nvim
 export COLUMNS
 export LINES
+
+loadFnDir() {
+  fpath+=$1
+  for i in $1/*; do
+    F="$(basename "$i")"
+    unfunction $F > /dev/null 2>&1
+    autoload $F
+  done
+}
+loadFnDir $DOTBASE/.zfuns
+source $DOTBASE/.zfuns/z_colours
+source $DOTBASE/.zfuns/z_greek
 
 export LEIN_FAST_TRAMPOLINE=1
 
 setopt prompt_subst
 # export PROMPT='$(myzshprompt)'
-export PROMPT="$FG_[yellow]\$(echo \$(kubectl config current-context)/\${KUBE_NS:-%M})$RESET_ $FG_[green]\$(__git_ps1 '%s')$RESET_%# %B"
+# export PROMPT="$FG_[yellow]\$(echo \$(kubectl config current-context)/\${KUBE_NS:-%M})$RESET_ $FG_[green]\$(__git_ps1 '%s')$RESET_%# %B"
+export PROMPT="$FG_[yellow]\$(echo \$(kubectl config current-context)/\$(kubectl config view --minify | grep namespace | awk '{print \$2}' || echo %M))$RESET_ $FG_[green]\$(__git_ps1 '%s')$RESET_%# %B"
 export RPROMPT='%~ %*'
 preexec() {
   echo -n "$RESET"
@@ -79,14 +93,12 @@ bindkey '^X^X' edit-command-line
 stty -ixon
 unset KSH_ARRAYS
 
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 export VIMB=$DOTBASE/.vim/bundle
 export GOPATH=~/go
 
 # Completion
 # . ~/w/tmuxinator/completion/tmuxinator.zsh
-which jira > /dev/null 2>&1 && source <(jira --completion-script-zsh)
+# which jira > /dev/null 2>&1 && source <(jira --completion-script-zsh)
 
 # Kubectl-fns
 [[ -d ~/w/kubectl-fns ]] && . ~/w/kubectl-fns/zshrc
@@ -96,16 +108,6 @@ export HELM_HOME=~/.helm
 source $HOME/.zsh/_git_ps1
 fpath=($HOME/.zsh_fpath $fpath)
 _git_co() { _git_checkout }
-
-loadFnDir() {
-  fpath+=$1
-  for i in $1/*; do
-    F="$(basename "$i")"
-    unfunction $F > /dev/null 2>&1
-    autoload $F
-  done
-}
-loadFnDir $DOTBASE/.zfuns/funs
 
 # Automatically enable my Python3 VE
 if [[ -d "$HOME/pyve" ]]; then

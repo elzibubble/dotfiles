@@ -2,7 +2,7 @@
 
 BR=$(git branch -a)
 
-for X in develop trunk master; do
+for X in main develop trunk master; do
   grep -q origin/$X <<< $BR || continue
   echo $X
   exit

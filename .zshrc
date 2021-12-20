@@ -20,6 +20,7 @@ zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 zplug "diazod/git-prune"
 zplug "nnao45/zsh-kubectl-completion"
 zplug load # --verbose
+zstyle ':completion:*:*:kubectl:*' list-grouped false
 
 path[1,0]=(
   ~/.dotfiles/bin
@@ -31,6 +32,8 @@ path[1,0]=(
   ~/.yarn/bin
   ~/node_modules/node-cljfmt/bin
   ~/.gem/ruby/2.3.0/bin
+  ~/jdk-11.0.10+9/bin
+  # ~/jdk1.8.0_231/bin
 )
 
 # Gresham
@@ -43,6 +46,7 @@ export CCM_SNAPSHOTS_URL=https://nexus.greshamtech.com/content/repositories/ccm-
 #   orion) export KUBE_NS=crow ;;
 #   minikube) export KUBE_NS=tempest ;;
 # esac
+export SERVICES_YAML=/home/alee/w/ccm/etc/services/linux-light.yaml
 
 # Git
 export GIT_PS1_SHOWDIRTYSTATE=1
@@ -72,7 +76,8 @@ export LEIN_FAST_TRAMPOLINE=1
 setopt prompt_subst
 # export PROMPT='$(myzshprompt)'
 # export PROMPT="$FG_[yellow]\$(echo \$(kubectl config current-context)/\${KUBE_NS:-%M})$RESET_ $FG_[green]\$(__git_ps1 '%s')$RESET_%# %B"
-export PROMPT="$FG_[yellow]\$(echo \$(kubectl config current-context)/\$(kubectl config view --minify | grep namespace | awk '{print \$2}' || echo %M))$RESET_ $FG_[green]\$(__git_ps1 '%s')$RESET_%# %B"
+export PROMPT="$FG_[yellow]\$(kubectl config current-context 2>&1 >/dev/null && echo \$(kubectl config current-context)/\$(kubectl config view --minify | grep namespace | awk '{print \$2}' || echo %M))$RESET_ $FG_[green]\$(__git_ps1 '%s')$RESET_%# %B"
+export PROMPT="$FG_[green]\$(__git_ps1 '%s')$RESET_%# %B"
 export RPROMPT='%~ %*'
 preexec() {
   echo -n "$RESET"

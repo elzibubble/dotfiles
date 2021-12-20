@@ -22,14 +22,14 @@
   ol = log -6 --pretty=oneline
   ls = "!for X in $(git --no-pager diff --name-only \"$(git range "$@")\" | ag -v generated); do realpath -s --relative-to=\"${GIT_PREFIX:-.}\" \"$X\"; done #"
   lss = "!cd \"$GIT_PREFIX\" && git status -s -- "$@" | sed 's/^...//; s/.* -> //' | ag -v generated #"
-  lsp = "!git ls | percol"
-  lssp = "!git lss | percol"
+  lsp = "!git ls $1 | percol #"
+  lssp = "!git lss | percol #"
   asp = "!git add $(git lss | percol)"
   brp = "!git br | percol"
-  d = "!git multidiff \"$(git range --simple "$@")\" $(echo "$@" | awk -F-- '{print \"--\" $2}') #"
-  dp = "!git d -- $(git lsp) #"
+  d = "!cd \"$GIT_PREFIX\" && git multidiff \"$(git range --simple \"$@\")\" -- $(echo \"$@\" | awk -F-- '{print $2}') #"
   ds = multidiff --cached
   dw = multidiff
+  dp = "!git d $1 -- $(git lsp $1) #"
   dwp = "!git dw -- $(git lssp) #"
   mt = mergetool
   cir = commit --amend --no-edit
@@ -86,7 +86,7 @@
 
   # Ridiculous laziness
   start = "!git com && git pr && git co -b"
-  mkpr = "!hub pull-request"
+  mkpr = "!gh pr create -f"
   spr = "!git shove && git mkpr"
   cspr = "!git ciq && git spr"
   # mkpreng = "!git mkpr -r JamesLaverack,thewonderbull,mt3593,GreshamDanielStephens"

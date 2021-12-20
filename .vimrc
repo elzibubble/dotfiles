@@ -64,7 +64,7 @@ Plug 'tpope/vim-surround'
 " Plug 'venantius/vim-cljfmt'
 Plug 'vim-scripts/Tabmerge'
 Plug 'xenomachina/public', {'rtp': 'vim/'}
-Plug 'xolox/vim-misc'
+Plug 'xolox/vim-misc' " prereq for xolox/vim-session
 Plug 'xolox/vim-session'
 Plug 'lxsli/vim-unimpaired'
 " Plug 'lxsli/vim-unstack'
@@ -162,6 +162,7 @@ map <M-p> "yp
 map <M-S-p> "yP
 nmap <M-x> V"yp
 tnoremap <esc><esc> <c-\><c-n>
+nmap 'A 's'#:A<CR>
 
 function! <SID>SourcePart(line1, line2)
    let tmp = @z
@@ -471,20 +472,6 @@ let g:syntastic_rst_rst2pseudoxml_quiet_messages = {
 " autocmd BufWrite *.py :call DeleteTrailingWS()
 
 autocmd BufRead *.graphqls set ts=2 sw=2
-
-function! DiffGit(count)
-  exe 'diffoff!'
-  exe 'diffthis'
-  exe 'wincmd L'
-  exe 'normal <leader>s'
-  exe 'silent r!git sh '. bufname('#') .' '. a:count
-  exe '0d'
-  exe 'diffthis'
-  exe 'set nomodified readonly'
-  exe 'wincmd h'
-  exe 'wincmd L'
-endfunc
-nmap 'dg :Gvdiffsplit<cr>
 
 function! RangeTest(count)
   exe 'echo '. a:count

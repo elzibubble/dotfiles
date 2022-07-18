@@ -7,13 +7,14 @@ setopt autocd extendedglob hist_ignore_all_dups inc_append_history
 bindkey -e
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
-zstyle :compinstall filename "$HOME/.zshrc"
 
-[[ -s /home/lealexis/.autojump/etc/profile.d/autojump.sh ]] && source /home/lealexis/.autojump/etc/profile.d/autojump.sh
+# zstyle ':completion:*' completer _complete _ignored _approximate
+zstyle :compinstall filename '/home/alee/.zshrc'
 
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
+[[ -s /home/lealexis/.autojump/etc/profile.d/autojump.sh ]] && source /home/lealexis/.autojump/etc/profile.d/autojump.sh
 
 source ~/.zplug/init.zsh
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
@@ -34,19 +35,27 @@ path[1,0]=(
   ~/.gem/ruby/2.3.0/bin
   ~/jdk-11.0.10+9/bin
   # ~/jdk1.8.0_231/bin
+  ~/w/ccm/bin
+  ~/w/ccm/op-bin
 )
 
-# Gresham
+# Work
 unsetopt beep
 export DOTBASE=$HOME
 export WORKSPACE=$HOME/w
 export DEPLOY=$HOME/deploy
 export CCM_SNAPSHOTS_URL=https://nexus.greshamtech.com/content/repositories/ccm-snapshots/
-# case $(kubectl config current-context) in
-#   orion) export KUBE_NS=crow ;;
-#   minikube) export KUBE_NS=tempest ;;
-# esac
 export SERVICES_YAML=/home/alee/w/ccm/etc/services/linux-light.yaml
+export GOOGLE_APPLICATION_CREDENTIALS=/home/alee/w/local-terraform-gothic-parser.json
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+compdef k=kubectl
+function() fixrtc() {
+  timedatectl status | grep 'RTC time'
+  timedatectl set-ntp false &&\
+    timedatectl set-time "$(date '+%Y-%m-%d %H:%M:%S')" &&\
+    timedatectl set-ntp true
+  timedatectl status | grep 'RTC time'
+}
 
 # Git
 export GIT_PS1_SHOWDIRTYSTATE=1
@@ -58,6 +67,7 @@ export EDITOR=nvim
 export VISUAL=nvim
 export COLUMNS
 export LINES
+export GH_NO_UPDATE_NOTIFIER=1
 
 loadFnDir() {
   fpath+=$1
@@ -149,7 +159,8 @@ function ll() { l -l --block-size=M $* }
 function lal() { ll -a $* }
 function lu() { l -U $* }
 
-function get() { sudo -E apt-get install $* }
+function get() { sudo -E apt install $* }
+function aptup() { sudo apt update && sudo apt upgrade && sudo apt autoremove }
 
 function gti() { git "$@" }
 function gvim () { (/usr/bin/gvim -f "$@" &) }
@@ -163,7 +174,8 @@ function hup() { nohup "$@" > /dev/null 2>&1 & }
 function tab() { sed 's/^/  /g' }
 function vfind() { vim $(find "$@") }
 # alias grep='f(){ echo "Tsk, use ag" }; f'
-alias agc='ag --clojure'
+alias bag='bar && ag'
+alias agc='bag --clojure'
 function hi_ip() { egrep "[0-9]+\.[0-9]+|" --color=always $@ }
 
 function vim() { nvim "$@" }
@@ -262,8 +274,6 @@ function dex() {
 
 function _w_comp { pushd ~/w >/dev/null; _cd "$@"; popd >/dev/null }
 compdef _w_comp w
-function _bin_comp { pushd $(_bin) >/dev/null; _path_files "$@"; popd >/dev/null }
-compdef _bin_comp bin
 
 function title() {
   printf "\e]2;$*\a"

@@ -189,6 +189,9 @@ else
   nmap 'P :%d<CR>"+]pggdd
 endif
 "nmap 'D :%d \| w!<CR>
+" Gdiffsplit!
+nmap 'dd :vert Gdiffsplit! HEAD~1<CR>
+nmap 'ds :vert Gdiffsplit! HEAD<CR>
 nmap 'du :diffupdate<CR>
 nmap 'dt :diffthis<CR>
 nmap 'do :diffoff<CR>
@@ -218,6 +221,7 @@ nnoremap 's :vert botright new<CR>
 nnoremap 'S :bel new<CR>
 nmap 't :tabnew<CR>
 nmap 'T :tabc<CR>
+nmap '<C-T> :tabc!<CR>
 " nmap [t <Plug>unimpairedTPrevious:diffupdate<CR>
 " nmap ]t <Plug>unimpairedTNext:diffupdate<CR>
 nnoremap [t :tabprev\|diffupdate<CR>
@@ -335,7 +339,9 @@ autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTreeType') && b:NERDTree
 nmap '/ :NERDTreeToggle<CR>
 let g:NERDTreeQuitOnOpen = 1
 
+" Filetypes
 au BufEnter Jenkinsfile set ft=groovy
+au BufEnter *.bb set ft=clojure
 
 " let g:ConqueTerm_CWInsert = 1
 " let g:ConqueTerm_SessionSupport = 1
@@ -532,6 +538,9 @@ vnoremap <silent> <leader>ab :<c-u>call base64#v_btoa()<cr>
 " dispatch
 let g:dispatch_no_maps=1
 
+" vim-commentary
+autocmd FileType tf setlocal commentstring=#\ %s
+
 " asciidoctor
 let g:asciidoctor_extensions = ['asciidoctor-diagram']
 let g:asciidoctor_pdf_extensions = ['asciidoctor-diagram']
@@ -552,6 +561,12 @@ augroup asciidoctor
 	au!
 	au BufEnter *.adoc,*.asciidoc call AsciidoctorMappings()
 augroup END
+
+" basename for file completion
+cnoremap <C-t> <C-\>e(<SID>RemoveLastPathComponent())<CR>
+function! s:RemoveLastPathComponent()
+  return substitute(getcmdline(), '\%(\\ \|[\\/]\@!\f\)\+[\\/]\=$\|.$', '', '')
+endfunction
 
 colorscheme jellybeans
 " vi:set ft=vim ts=2 sw=2 expandtab:

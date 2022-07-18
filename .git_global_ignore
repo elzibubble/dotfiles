@@ -11,3 +11,6 @@
 .*.sw?
 
 target/
+
+*.link
+*.local

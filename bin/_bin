@@ -1,9 +1,0 @@
-#!/bin/bash
-set -eu
-set -o pipefail
-
-P=$(pwd)
-while [[ $P != / && ! -d "$P/bin" ]]; do
-    P="$(readlink -f "$P"/..)"
-done
-echo "$P/bin"

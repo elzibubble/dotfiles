@@ -1,6 +1,9 @@
+*.tsx
 *.min.js.map
 *.js.map
 *.min.js
 *.test.js.snap
 *.graphql.js
+*.graphql.ts
 node_modules
+graphiql

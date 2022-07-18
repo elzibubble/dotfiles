@@ -1,10 +1,17 @@
 #!/bin/bash
+set -euo pipefail
+
+IC=
+if [[ "$1" == "-i" ]]; then
+  IC="-i"
+  shift
+fi
 
 PAT="$1"
 shift
 
-if [[ "$1" -eq "" ]]; then
-	grep -E --color "$PAT|"
+if [[ "$*" == "" ]]; then
+	grep $IC -E --color "$PAT|"
 else
-	"$@" 2>&1 | grep -E --color "$PAT|"
+	"$@" 2>&1 | grep $IC -E --color "$PAT|"
 fi

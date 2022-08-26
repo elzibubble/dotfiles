@@ -568,5 +568,7 @@ function! s:RemoveLastPathComponent()
   return substitute(getcmdline(), '\%(\\ \|[\\/]\@!\f\)\+[\\/]\=$\|.$', '', '')
 endfunction
 
+" some damn thing is mapping Y to y$
+nunmap Y
 colorscheme jellybeans
 " vi:set ft=vim ts=2 sw=2 expandtab:

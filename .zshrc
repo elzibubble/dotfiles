@@ -56,6 +56,7 @@ function() fixrtc() {
     timedatectl set-ntp true
   timedatectl status | grep 'RTC time'
 }
+alias suspend="systemctl suspend -i"
 
 # Git
 export GIT_PS1_SHOWDIRTYSTATE=1

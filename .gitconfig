@@ -97,6 +97,7 @@
   gpr = "!gh pr checkout"
   prco = "!gh pr checkout"
   approve = "!gh pr review --approve"
+  wip = "!git ci -am \"wip $(date -Iseconds)\""
 
   fixup = "!git ci -am fixup && git push"
   cljfmt = "!cd \"$GIT_PREFIX\" && lein cljfmt fix && git ci -am cljfmt && git push"
